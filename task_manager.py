@@ -7,6 +7,22 @@
     - You can use a list or dictionary to store a list of usernames and passwords from the file.
     - Use a while loop to validate your user name and password.
 '''
+is_valid = True
+credential_list = []
+
+#username_input: input("Username: ").lower().strip()
+#password_input: input("Password: ").lower().strip()
+with open("user.txt", "r", encoding="utf-8") as file:
+    line = file.readlines()
+    for value in line:
+        credential = value.strip()
+        credential = value.split(", ")
+        credential_list.append(credential)
+    print(credential_list)
+
+#while is_valid:
+    
+
 
 while True:
     #presenting the menu to the user and 
