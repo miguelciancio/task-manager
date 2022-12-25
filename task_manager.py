@@ -5,8 +5,11 @@ import time
 
 
 # ===== VARIABLES SECTION =====
-is_valid = True
 credential_list = []
+is_valid = False
+is_invalid = False
+is_password = False
+is_username = False
 
 
 # ===== LOGIN SECTION =====
@@ -25,35 +28,36 @@ with open("user.txt", "r", encoding="utf-8") as file:
 # request username and password from user in order to access the system
 # removes all white space before/after user's input and also
 # change all characters into lowercase letter to compare with our database
-username_input = input("Username: ").lower().strip()
-password_input = input("Password: ").lower().strip()
 
-# for loop that iterate through credential_list in order to compare user's input with data stored in it
-for username, password in credential_list:
-        # check if the first attempo to login was successfull; if yes, move on into next part of program
+
+# while loop that keep asking user to enter its right login and password credentials
+# it only stops when user's input is equal to one of the login data inside crendential_list
+while is_valid != True:
+    username_input = input("Username: ").lower().strip()
+    password_input = input("Password: ").lower().strip()
+    for username, password in credential_list:
         if username_input == username and password_input == password:
-            is_valid = False
-        else:
-            # while loop that keep asking user to enter its right login and password credentials
-            # it only stops when user's input is equal to one of the login data inside crendential_list
-            while is_valid:
-                # condition to stop the while loop
-                if is_valid == False:
-                    break
-                # error message displayed to user and ask he/she/it to enter username and password once again
-                time.sleep(1) # function that stop the program to work for a x number of seconds which is determined by the number inside "()"
-                print("Error: login invalid! Please, try again.")
-                time.sleep(1)
-                # ask user to enter username input and password input until it is correct
-                username_input = input("Username: ").lower().strip()
-                password_input = input("Password: ").lower().strip()
-                # condition that checks if user's input is correct; if yes, change is_valid variable to False in order to break the while loop
-                for username, password in credential_list:
-                    if username_input == username and password_input == password:
-                        is_valid = False
-                        break
+            is_valid = True
+            break
+        elif username_input == username and password_input != password:
+            is_password = True
+            time.sleep(1)
+            print("Error: login invalid! \nPlease, enter the correct password.")
+            time.sleep(1)
+        elif username_input != username and password_input == password:
+            is_username = True
+            time.sleep(1) 
+            print("Error: login invalid! \nPlease, enter the correct username.")
+            time.sleep(1)
+    if is_valid and (not is_password) and (not is_username):
+        break
+    elif not is_valid and not is_password and not is_username:
+        time.sleep(1)
+        print("Error: login invalid! \nPlease, enter correct username and password.")
+        time.sleep(1)
 
-# successful login message
+
+# print out successful login messaged
 time.sleep(1)
 print("Login successfull")
 time.sleep(1)
