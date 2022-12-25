@@ -25,6 +25,7 @@ header()
 
 # ===== VARIABLES SECTION =====
 credential_list = []
+task_list = []
 is_valid = False
 is_invalid = False
 is_password = False
@@ -192,17 +193,29 @@ e  \t- \tExit
             - Then print the results in the format shown in the Output 2 
             - It is much easier to read a file using a for loop.
         '''
+        with open("tasks.txt", "r", encoding="utf-8") as file:
+            # iterate the file
+            for line in file:
+                line = line.strip(os.linesep).split(", ") # first, get each line of the file and then create an individual list for each login and password data excluding the \n escape characters at the end of the word
+                task_list.append(line) # append the login and password list into another
+        time.sleep(0.7)
+        for values in task_list:
+            print(f"""\nTask: \t\t\t{values[0]:10} \nAssigned to: \t\t{values[1]:10} \nDate assigned: \t\t{values[3]} \nDue date: \t\t{values[4]} \nTask complete? \t\t{values[5]} \nTask description: \n  {values[2]}\n""")
+            time.sleep(0.7)
+
 
     elif menu == 'vm':
-        pass
-        '''In this block you will put code the that will read the task from task.txt file and
-         print to the console in the format of Output 2 in the task PDF(i.e. include spacing and labelling)
-         You can do it in this way:
+        '''
+        In this block I will put code the that will read the task from task.txt file and
+        print to the console in the format of Output 2 in the task PDF(i.e. include spacing and labelling)
+        You can do it in this way:
             - Read a line from the file
             - Split the line where there is comma and space.
             - Check if the username of the person logged in is the same as the username you have
             read from the file.
-            - If they are the same print it in the format of Output 2 in the task PDF'''
+            - If they are the same print it in the format of Output 2 in the task PDF
+        '''
+
 
     elif menu == 'e':
         print('\nGoodbye!!!')
