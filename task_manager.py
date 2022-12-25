@@ -2,6 +2,7 @@
 '''This is the section where I will import libraries'''
 import os
 import time
+import datetime
 
 # ===== FUNCTION SECTION =====
 '''This is the section where I will keep all my functions'''
@@ -163,11 +164,26 @@ e  \t- \tExit
             - Include the 'No' as initial value to indicate if the task is complete.
         '''
         time.sleep(0.7)
-        username_task_assignment = input("Enter username that the task is assign to: ")
-        task_title = input("Enter task title: ")
-        task_description = input("Enter task description: \n")
-        task_due_date = input("Enter due date of the task (dd Mmm yyyy): ")
-        print(username_task_assignment, task_title, task_description, task_due_date)
+        username_task_assignment = input("Enter username that the task is assign to: ") # request username of the person that the task was assigned to
+        task_title = input("Enter task title: ") # request task's title
+        task_description = input("Enter task description: \n") # request task's description
+        task_due_date = input("Enter due date of the task (dd Mmm yyyy): ") # request task's due date
+
+        # get the current date time of the system and store into a variable
+        now = datetime.datetime.now()
+        # convert the current date into a string variable
+        task_date_assignment = now.strftime(f"%d %b %Y")
+        task_completion = "No"
+
+        # open tasks.txt file and append the new task registered
+        # at the end of it.
+        with open("tasks.txt", "a", encoding="utf-8") as file:
+            file.write(f"\n{username_task_assignment}, {task_title}, {task_description}, {task_due_date}, {task_date_assignment}, {task_completion}")
+        
+        # print out that the task was successfully registered
+        time.sleep(1)
+        divisory_line()
+        print("New task successfully registered!")
 
     elif menu == 'va':
         pass
