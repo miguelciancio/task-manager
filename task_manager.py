@@ -102,9 +102,10 @@ for count in range(1, 6):
     dot = dot + '.'
     time.sleep(1)
     
-divisory_line()
 # ===== MENU SECTION =====
 while True:
+    time.sleep(0.7)
+    divisory_line()
     #presenting the menu to the user and 
     # making sure that the user input is coneverted to lower case.
     menu = input('''Select one of the following Options below:
@@ -114,6 +115,9 @@ va \t- \tView all tasks
 vm \t- \tview my task
 e  \t- \tExit
 : ''').lower().strip()
+    
+    divisory_line()
+
     # Check if user wants to register a new user
     if menu == 'r':
         '''
@@ -126,6 +130,7 @@ e  \t- \tExit
             - If they are the same, add them to the user.txt file,
             - Otherwise you present a relevant message.
         '''
+        time.sleep(0.7)
         new_username = input("Enter a new username: \t") # request new username
         new_password = input("Enter a new password: \t") # request new password
         new_password_confirmation = input("Confirm new password: \t") # request confirmation of new password
@@ -133,7 +138,15 @@ e  \t- \tExit
         # then, open user.txt file and add the new username and new password
         # to the end of the file
         if new_password == new_password_confirmation:
-            
+            with open("user.txt", "a", encoding="utf-8") as file:
+                file.write(f"\n{new_username}, {new_password}")
+            time.sleep(1)
+            divisory_line()
+            print("New user registered!")
+        else:
+            time.sleep(1)
+            divisory_line()
+            print("Password does not match! \nPlease, make sure next time that both passwords match!")
 
 
     elif menu == 'a':
@@ -171,8 +184,8 @@ e  \t- \tExit
             - If they are the same print it in the format of Output 2 in the task PDF'''
 
     elif menu == 'e':
-        print('Goodbye!!!')
+        print('\nGoodbye!!!')
         exit()
 
     else:
-        print("You have made a wrong choice, Please Try again")
+        print("\nYou have made a wrong choice, Please Try again")

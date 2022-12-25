@@ -2,3 +2,4 @@ admin, adm1n
 pri, pri
 user_2, user2
 user_3, user3
+migs, migs
