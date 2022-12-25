@@ -1,9 +1,10 @@
 # ===== IMPORTING LIBRARIES =====
-'''This is the section where you will import libraries'''
+'''This is the section where I will import libraries'''
 import os
 import time
 
 # ===== FUNCTION SECTION =====
+'''This is the section where I will keep all my functions'''
 def divisory_line():
   '''Simple function that print out some lines on the display.'''
   print(f"{'=' * 80}")
@@ -16,7 +17,7 @@ def header():
 
 
 
-# header
+# header of the program
 time.sleep(0.7)
 header()
 
