@@ -24,6 +24,7 @@ header()
 
 
 # ===== VARIABLES SECTION =====
+username_input = ""
 credential_list = []
 task_list = []
 is_valid = False
@@ -192,6 +193,10 @@ e  \t- \tExit
             - Split the line where there is comma and space.
             - Then print the results
         '''
+        # clear task_list in order to always display the current tasks on the system
+        # otherwise, it will append the same tasks in the list and display them to
+        # the user
+        task_list = []  
         # open tasks.txt file in order to read and display its contents to the user
         with open("tasks.txt", "r", encoding="utf-8") as file:
             # iterate the file
@@ -201,8 +206,8 @@ e  \t- \tExit
         time.sleep(0.7)
         # for loop that iterates through task_list in order to
         # extract each value and print out to the user
-        for task_list_values in task_list:
-            print(f"""\nTask: \t\t\t{task_list_values[0]} \nAssigned to: \t\t{task_list_values[1]} \nDate assigned: \t\t{task_list_values[3]} \nDue date: \t\t{task_list_values[4]} \nTask complete? \t\t{task_list_values[5]} \nTask description: \n  {task_list_values[2]}\n""")
+        for values in task_list:
+            print(f"""\nTask: \t\t\t{values[0]} \nAssigned to: \t\t{values[1]} \nDate assigned: \t\t{values[3]} \nDue date: \t\t{values[4]} \nTask complete? \t\t{values[5]} \nTask description: \n  {values[2]}\n""")
             time.sleep(0.7)
 
 
@@ -217,11 +222,30 @@ e  \t- \tExit
             read from the file.
             - If they are the same print it out
         '''
-
-
+        # clear task_list in order to always display the current tasks on the system
+        # otherwise, it will append the same tasks in the list and display them to
+        # the user
+        task_list = []
+        # open tasks.txt file in order to read and display its contents to the user
+        with open("tasks.txt", "r", encoding="utf-8") as file:
+            # iterate the file
+            for line in file:
+                line = line.strip(os.linesep).split(", ") # first, get each line of the file and then create an individual list for each task's information, excluding the \n escape characters at the end of the word
+                task_list.append(line) # append the tasks information list into another
+        time.sleep(0.7)
+        # for loop that iterates through task_list in order to
+        # extract each value and print out to the user
+        for values in task_list:
+            if username_input == values[0]:
+                print(f"""\nTask: \t\t\t{values[0]} \nAssigned to: \t\t{values[1]} \nDate assigned: \t\t{values[3]} \nDue date: \t\t{values[4]} \nTask complete? \t\t{values[5]} \nTask description: \n  {values[2]}\n""")
+                time.sleep(0.7)
+            else:
+                print(f"No task for {username_input} at the moment!")
+                break
+    # condition to exit the program            
     elif menu == 'e':
         print('\nGoodbye!!!')
         exit()
-
+    # return error message if user enter wrong input
     else:
         print("\nYou have made a wrong choice, Please Try again")
