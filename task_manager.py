@@ -1,3 +1,5 @@
+# ===== COMPULSORY TASK - 002 =====
+
 # ===== IMPORTING LIBRARIES =====
 '''This is the section where I will import libraries'''
 import os
@@ -85,7 +87,7 @@ while is_valid != True:
             divisory_line()
             time.sleep(0.7)
     # Here we stop while loop if is_valid variable is true
-    if is_valid and not is_password and not is_username:
+    if is_valid and (not is_password) and (not is_username):
         break
     # Here we print out another message if both username and password were invalid (not matched with any data inside our database)
     elif not is_valid and not is_password and not is_username:
@@ -114,11 +116,21 @@ while True:
     divisory_line()
     #presenting the menu to the user and 
     # making sure that the user input is coneverted to lower case.
-    menu = input('''Select one of the following Options below:
+    if username_input != "admin":
+        menu = input('''Select one of the following Options below:
 r  \t- \tRegistering a user
 a  \t- \tAdding a task
 va \t- \tView all tasks
 vm \t- \tview my task
+e  \t- \tExit
+: ''').lower().strip()
+    else:
+        menu = input('''Select one of the following Options below:
+r  \t- \tRegistering a user
+a  \t- \tAdding a task
+va \t- \tView all tasks
+vm \t- \tView my task
+s  \t- \tStatistics
 e  \t- \tExit
 : ''').lower().strip()
     
@@ -136,24 +148,26 @@ e  \t- \tExit
             - If they are the same, add them to the user.txt file,
             - Otherwise you present a relevant message.
         '''
-        time.sleep(0.7)
-        new_username = input("Enter a new username: \t") # request new username
-        new_password = input("Enter a new password: \t") # request new password
-        new_password_confirmation = input("Confirm new password: \t") # request confirmation of new password
-        # check if the new password and confirmed password are the same
-        # then, open user.txt file and add the new username and new password
-        # to the end of the file
-        if new_password == new_password_confirmation:
-            with open("user.txt", "a", encoding="utf-8") as file:
-                file.write(f"\n{new_username}, {new_password}")
-            time.sleep(1)
-            divisory_line()
-            print("New user registered!")
+        if username_input == "admin":
+            time.sleep(0.7)
+            new_username = input("Enter a new username: \t") # request new username
+            new_password = input("Enter a new password: \t") # request new password
+            new_password_confirmation = input("Confirm new password: \t") # request confirmation of new password
+            # check if the new password and confirmed password are the same
+            # then, open user.txt file and add the new username and new password
+            # to the end of the file
+            if new_password == new_password_confirmation:
+                with open("user.txt", "a", encoding="utf-8") as file:
+                    file.write(f"\n{new_username}, {new_password}")
+                time.sleep(1)
+                divisory_line()
+                print("New user registered!")
+            else:
+                time.sleep(1)
+                divisory_line()
+                print("Password does not match! \nPlease, make sure next time that both passwords match!")
         else:
-            time.sleep(1)
-            divisory_line()
-            print("Password does not match! \nPlease, make sure next time that both passwords match!")
-
+            print("Access Denied! \nYou need to have Admin Access Level \nIn order to register a new user!")
 
     elif menu == 'a':
         '''
@@ -226,7 +240,18 @@ e  \t- \tExit
             if username_input == values[0]:
                 print(f"""\nTask: \t\t\t{values[0]} \nAssigned to: \t\t{values[1]} \nDate assigned: \t\t{values[3]} \nDue date: \t\t{values[4]} \nTask complete? \t\t{values[5]} \nTask description: \n  {values[2]}\n""")
                 time.sleep(0.7)
-                
+
+    # Statistics Option that only admin has access to
+    # When this option is selected, it will display the 
+    # total number of tasks and the total number of users
+    elif username_input == "admin" and menu == "s":
+        print(f"""***** STATISTICS *****
+{task_list}
+{credential_list}
+Number of tasks: \t{len(task_list)}   
+Number of users: \t{len(credential_list) - 1} 
+        """) # we do credential_list - 1 to exclude the admin from the count.
+    
     # condition to exit the program            
     elif menu == 'e':
         print('\nGoodbye!!!')
