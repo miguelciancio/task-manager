@@ -1,28 +1,69 @@
-#=====importing libraries===========
+# ===== IMPORTING LIBRARIES =====
 '''This is the section where you will import libraries'''
+import os
+import time
 
-#====Login Section====
-'''Here you will write code that will allow a user to login.
-    - Your code must read usernames and password from the user.txt file
-    - You can use a list or dictionary to store a list of usernames and passwords from the file.
-    - Use a while loop to validate your user name and password.
-'''
+
+# ===== VARIABLES SECTION =====
 is_valid = True
 credential_list = []
 
-#username_input: input("Username: ").lower().strip()
-#password_input: input("Password: ").lower().strip()
+
+# ===== LOGIN SECTION =====
+'''Here we have a code that will allow a user to login.
+    - The code must read usernames and password from the user.txt file
+    - I am using a list of usernames and passwords from the file.
+    - I am using a while loop to validate my user name and password.
+'''
+# open user.txt file in order to check if the user has entered his/her/its correct credentials
 with open("user.txt", "r", encoding="utf-8") as file:
-    line = file.readlines()
-    for value in line:
-        credential = value.strip()
-        credential = value.split(", ")
-        credential_list.append(credential)
-    print(credential_list)
+    # iterate the file
+    for line in file:
+        line = line.strip(os.linesep).split(", ") # first, get each line of the file and then create an individual list for each login and password data excluding the \n escape characters at the end of the word
+        credential_list.append(line) # append the login and password list into another
 
-#while is_valid:
-    
+# request username and password from user in order to access the system
+# removes all white space before/after user's input and also
+# change all characters into lowercase letter to compare with our database
+username_input = input("Username: ").lower().strip()
+password_input = input("Password: ").lower().strip()
 
+# for loop that iterate through credential_list in order to compare user's input with data stored in it
+for username, password in credential_list:
+        # check if the first attempo to login was successfull; if yes, move on into next part of program
+        if username_input == username and password_input == password:
+            is_valid = False
+        else:
+            # while loop that keep asking user to enter its right login and password credentials
+            # it only stops when user's input is equal to one of the login data inside crendential_list
+            while is_valid:
+                # condition to stop the while loop
+                if is_valid == False:
+                    break
+                # error message displayed to user and ask he/she/it to enter username and password once again
+                time.sleep(1) # function that stop the program to work for a x number of seconds which is determined by the number inside "()"
+                print("Error: login invalid! Please, try again.")
+                time.sleep(1)
+                # ask user to enter username input and password input until it is correct
+                username_input = input("Username: ").lower().strip()
+                password_input = input("Password: ").lower().strip()
+                # condition that checks if user's input is correct; if yes, change is_valid variable to False in order to break the while loop
+                for username, password in credential_list:
+                    if username_input == username and password_input == password:
+                        is_valid = False
+                        break
+
+# successful login message
+time.sleep(1)
+print("Login successfull")
+time.sleep(1)
+print("Authenticating")
+time.sleep(1)
+print("...........")
+time.sleep(2)
+
+
+# ===== MENU SECTION =====
 
 while True:
     #presenting the menu to the user and 
