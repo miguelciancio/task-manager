@@ -90,17 +90,13 @@ while is_valid != True:
 # print out successful login messaged
 time.sleep(0.7)
 divisory_line()
-
-print("Login successfull!\n")
+print("Login successfull!")
 time.sleep(0.7)
-
 print("Initializing Authentication")
 time.sleep(1)
-
 dot = "."
-for count in range(1, 6):
+for count in range(1, 4):
     print(dot)
-    dot = dot + '.'
     time.sleep(1)
     
 # ===== MENU SECTION =====
@@ -164,10 +160,11 @@ e  \t- \tExit
             - Include the 'No' as initial value to indicate if the task is complete.
         '''
         time.sleep(0.7)
-        username_task_assignment = input("Enter username that the task is assign to: ") # request username of the person that the task was assigned to
-        task_title = input("Enter task title: ") # request task's title
+        username_task_assignment = input("Enter username task is assign to:\t\t") # request username of the person that the task was assigned to
+        task_title = input("Enter task title: \t\t\t\t") # request task's title
+        task_due_date = input("Enter due date of the task (dd Mmm yyyy):\t") # request task's due date
         task_description = input("Enter task description: \n") # request task's description
-        task_due_date = input("Enter due date of the task (dd Mmm yyyy): ") # request task's due date
+        
 
         # get the current date time of the system and store into a variable
         now = datetime.datetime.now()
@@ -186,14 +183,15 @@ e  \t- \tExit
         print("New task successfully registered!")
 
     elif menu == 'va':
-        pass
-        '''In this block you will put code so that the program will read the task from task.txt file and
-         print to the console in the format of Output 2 in the task PDF(i.e. include spacing and labelling)
-         You can do it in this way:
+        '''
+        In this block you will put code so that the program will read the task from task.txt file and
+        print to the console in the format of Output 2 in the task PDF(i.e. include spacing and labelling)
+        You can do it in this way:
             - Read a line from the file.
             - Split that line where there is comma and space.
             - Then print the results in the format shown in the Output 2 
-            - It is much easier to read a file using a for loop.'''
+            - It is much easier to read a file using a for loop.
+        '''
 
     elif menu == 'vm':
         pass
