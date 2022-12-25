@@ -122,7 +122,7 @@ e  \t- \tExit
     if menu == 'r':
         '''
         In this block I will write code to add a new user to the user.txt file
-        By doing the following steps:
+        By doing the following on these steps:
             - Request input of a new username
             - Request input of a new password
             - Request input of password confirmation.
@@ -150,9 +150,9 @@ e  \t- \tExit
 
 
     elif menu == 'a':
-        pass
-        '''In this block you will put code that will allow a user to add a new task to task.txt file
-        - You can follow these steps:
+        '''
+        In this block I will put code that will allow a user to add a new task to task.txt file
+        By doing the following on these steps:
             - Prompt a user for the following: 
                 - A username of the person whom the task is assigned to,
                 - A title of a task,
@@ -160,7 +160,14 @@ e  \t- \tExit
                 - the due date of the task.
             - Then get the current date.
             - Add the data to the file task.txt and
-            - You must remember to include the 'No' to indicate if the task is complete.'''
+            - Include the 'No' as initial value to indicate if the task is complete.
+        '''
+        time.sleep(0.7)
+        username_task_assignment = input("Enter username that the task is assign to: ")
+        task_title = input("Enter task title: ")
+        task_description = input("Enter task description: \n")
+        task_due_date = input("Enter due date of the task (dd Mmm yyyy): ")
+        print(username_task_assignment, task_title, task_description, task_due_date)
 
     elif menu == 'va':
         pass
