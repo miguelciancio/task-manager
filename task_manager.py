@@ -3,6 +3,23 @@
 import os
 import time
 
+# ===== FUNCTION SECTION =====
+def divisory_line():
+  '''Simple function that print out some lines on the display.'''
+  print(f"{'=' * 80}")
+
+def header():
+  '''Simple header for the task'''
+  divisory_line()
+  print(f"{' ' * 25} TASK MANAGEMENT SYSTEM {' ' * 25}")
+  divisory_line()
+
+
+
+# header
+time.sleep(0.7)
+header()
+
 
 # ===== VARIABLES SECTION =====
 credential_list = []
@@ -25,59 +42,76 @@ with open("user.txt", "r", encoding="utf-8") as file:
         line = line.strip(os.linesep).split(", ") # first, get each line of the file and then create an individual list for each login and password data excluding the \n escape characters at the end of the word
         credential_list.append(line) # append the login and password list into another
 
-# request username and password from user in order to access the system
-# removes all white space before/after user's input and also
-# change all characters into lowercase letter to compare with our database
-
-
 # while loop that keep asking user to enter its right login and password credentials
 # it only stops when user's input is equal to one of the login data inside crendential_list
 while is_valid != True:
+    # request username and password from user in order to access the system
+    # removes all white space before/after user's input and also
+    # change all characters into lowercase letter to compare with our database  
     username_input = input("Username: ").lower().strip()
     password_input = input("Password: ").lower().strip()
+    
+    # for loop that goes through credential_list in order to check if user's input matches with data inside this list
     for username, password in credential_list:
+        # check if username and password match with any user login in the list storing this information in a boolean variable; stops the for loopping
         if username_input == username and password_input == password:
             is_valid = True
             break
+        # print out a messsage to user if username is correct and password wrong
         elif username_input == username and password_input != password:
             is_password = True
             time.sleep(1)
+            divisory_line()
             print("Error: login invalid! \nPlease, enter the correct password.")
-            time.sleep(1)
+            divisory_line()
+            time.sleep(0.7)
+        # print out a message to user if username is wrong
         elif username_input != username and password_input == password:
             is_username = True
-            time.sleep(1) 
-            print("Error: login invalid! \nPlease, enter the correct username.")
             time.sleep(1)
+            divisory_line() 
+            print("Error: login invalid! \nPlease, enter the correct username.")
+            divisory_line()
+            time.sleep(0.7)
+    # Here we stop while loop if is_valid variable is true
     if is_valid and (not is_password) and (not is_username):
         break
+    # Here we print out another message if both username and password were invalid (not matched with any data inside our database)
     elif not is_valid and not is_password and not is_username:
         time.sleep(1)
+        divisory_line()
         print("Error: login invalid! \nPlease, enter correct username and password.")
-        time.sleep(1)
+        divisory_line()
+        time.sleep(0.7)
 
 
 # print out successful login messaged
-time.sleep(1)
-print("Login successfull")
-time.sleep(1)
-print("Authenticating")
-time.sleep(1)
-print("...........")
-time.sleep(2)
+time.sleep(0.7)
+divisory_line()
 
+print("Login successfull!\n")
+time.sleep(0.7)
 
+print("Initializing Authentication")
+time.sleep(1)
+
+dot = "."
+for count in range(1, 6):
+    print(dot)
+    dot = dot + '.'
+    time.sleep(1)
+    
+divisory_line()
 # ===== MENU SECTION =====
-
 while True:
     #presenting the menu to the user and 
     # making sure that the user input is coneverted to lower case.
     menu = input('''Select one of the following Options below:
-r - Registering a user
-a - Adding a task
-va - View all tasks
-vm - view my task
-e - Exit
+r  \t- \tRegistering a user
+a  \t- \tAdding a task
+va \t- \tView all tasks
+vm \t- \tview my task
+e  \t- \tExit
 : ''').lower()
 
     if menu == 'r':
