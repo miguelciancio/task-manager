@@ -85,7 +85,7 @@ while is_valid != True:
             divisory_line()
             time.sleep(0.7)
     # Here we stop while loop if is_valid variable is true
-    if is_valid and (not is_password) and (not is_username):
+    if is_valid and not is_password and not is_username:
         break
     # Here we print out another message if both username and password were invalid (not matched with any data inside our database)
     elif not is_valid and not is_password and not is_username:
