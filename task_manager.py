@@ -113,18 +113,28 @@ a  \t- \tAdding a task
 va \t- \tView all tasks
 vm \t- \tview my task
 e  \t- \tExit
-: ''').lower()
-
+: ''').lower().strip()
+    # Check if user wants to register a new user
     if menu == 'r':
-        pass
-        '''In this block you will write code to add a new user to the user.txt file
-        - You can follow the following steps:
+        '''
+        In this block I will write code to add a new user to the user.txt file
+        By doing the following steps:
             - Request input of a new username
             - Request input of a new password
             - Request input of password confirmation.
             - Check if the new password and confirmed password are the same.
             - If they are the same, add them to the user.txt file,
-            - Otherwise you present a relevant message.'''
+            - Otherwise you present a relevant message.
+        '''
+        new_username = input("Enter a new username: \t") # request new username
+        new_password = input("Enter a new password: \t") # request new password
+        new_password_confirmation = input("Confirm new password: \t") # request confirmation of new password
+        # check if the new password and confirmed password are the same
+        # then, open user.txt file and add the new username and new password
+        # to the end of the file
+        if new_password == new_password_confirmation:
+            
+
 
     elif menu == 'a':
         pass
