@@ -1,8 +1,6 @@
-# ===== COMPULSORY TASK - 002 =====
-
 # ===== IMPORTING LIBRARIES =====
 '''This is the section where I will import libraries'''
-import os
+from os import linesep
 import time
 import datetime
 
@@ -18,6 +16,89 @@ def header():
   print(f"{' ' * 25} TASK MANAGEMENT SYSTEM {' ' * 25}")
   divisory_line()
 
+def user_file(file_name, mode, username, password, password_confirmation):
+    if mode == "a" and password == password_confirmation:
+        with open(file_name, mode, encoding="utf-8") as file:
+            file.write(f"\n{username}, {password}")
+        time.sleep(1)
+        divisory_line()
+        print("New user registered!")
+    elif mode == "a" and password != password_confirmation:
+        time.sleep(1)
+        divisory_line()
+        print("Password does not match! \nPlease, make sure next time that both passwords match!")
+
+def username_list():
+    '''Function that returns a list with all usernames in user.txt file.'''
+    my_list = []
+    username_list = []
+
+    with open("user.txt", "r", encoding="utf-8") as file:
+        # iterate the file
+        for line in file:
+            line = line.strip(linesep).split(", ") # first, get each line of the file and then create an individual list for each task's information, excluding the \n escape characters at the end of the word
+            my_list.append(line)
+
+    for index, value in enumerate(my_list):
+        username_list.append(value[0])
+
+    return username_list
+
+def password_list():
+    '''Function that returns a list with all passwords in user.txt file.'''
+    line_list = []
+    password_list = []
+
+    with open("user.txt", "r", encoding="utf-8") as file:
+        for line in file:
+            line = line.strip(linesep).split(", ")
+            line_list.append(line)
+        
+    for index, value in enumerate(line_list):
+        password_list.append(value[1])
+    
+    return password_list
+
+def reg_user(username, username_list):
+    '''
+    In this block I will write code to add a new user to the user.txt file
+    By doing the following on these steps:
+        - Request input of a new username
+        - Check if the new username already existed in our database
+        - If it doesn't exist, add it to the user.txt file
+        - Otherwise it present a relevant message
+        - Request input of a new password
+        - Request input of password confirmation.
+        - Check if the new password and confirmed password are the same.
+        - If they are the same, add them to the user.txt file,
+        - Otherwise it present a relevant message.
+    '''
+    if username == "admin":
+        time.sleep(0.7)
+        new_username = input("Enter a new username: \t") # request new username
+        while True:
+            time.sleep(0.7)
+            if new_username in username_list:
+                print(f"\n[ERROR] - {new_username} already exist. Please choose another one.")
+                divisory_line()
+                new_username = input("Enter a new username: \t") # request new username
+            else:
+                new_password = input("Enter a new password: \t") # request new password
+                new_password_confirmation = input("Confirm new password: \t") # request confirmation of new password
+                user_file("user.txt", "a", new_username, new_password, new_password_confirmation)
+                break
+    else:
+            print("Access Denied! \nYou need to have Admin Access Level \nIn order to register a new user!")
+
+def add_task():
+    pass
+
+def view_all():
+    pass
+
+def view_mine():
+    pass
+
 
 
 # header of the program
@@ -26,6 +107,8 @@ header()
 
 
 # ===== VARIABLES SECTION =====
+usernames = username_list()
+passwords = password_list()
 username_input = ""
 credential_list = []
 task_list = []
@@ -38,7 +121,7 @@ is_username = False
 with open("tasks.txt", "r", encoding="utf-8") as file:
     # iterate the file
     for line in file:
-        line = line.strip(os.linesep).split(", ") # first, get each line of the file and then create an individual list for each task's information, excluding the \n escape characters at the end of the word
+        line = line.strip(linesep).split(", ") # first, get each line of the file and then create an individual list for each task's information, excluding the \n escape characters at the end of the word
         task_list.append(line) # append the tasks information list into another variable (task_list)
 
 
@@ -52,7 +135,7 @@ with open("tasks.txt", "r", encoding="utf-8") as file:
 with open("user.txt", "r", encoding="utf-8") as file:
     # iterate the file
     for line in file:
-        line = line.strip(os.linesep).split(", ") # first, get each line of the file and then create an individual list for each login and password data excluding the \n escape characters at the end of the word
+        line = line.strip(linesep).split(", ") # first, get each line of the file and then create an individual list for each login and password data excluding the \n escape characters at the end of the word
         credential_list.append(line) # append the login and password list into another
 
 # while loop that keep asking user to enter its right login and password credentials
@@ -138,36 +221,7 @@ e  \t- \tExit
 
     # Check if user wants to register a new user
     if menu == 'r':
-        '''
-        In this block I will write code to add a new user to the user.txt file
-        By doing the following on these steps:
-            - Request input of a new username
-            - Request input of a new password
-            - Request input of password confirmation.
-            - Check if the new password and confirmed password are the same.
-            - If they are the same, add them to the user.txt file,
-            - Otherwise you present a relevant message.
-        '''
-        if username_input == "admin":
-            time.sleep(0.7)
-            new_username = input("Enter a new username: \t") # request new username
-            new_password = input("Enter a new password: \t") # request new password
-            new_password_confirmation = input("Confirm new password: \t") # request confirmation of new password
-            # check if the new password and confirmed password are the same
-            # then, open user.txt file and add the new username and new password
-            # to the end of the file
-            if new_password == new_password_confirmation:
-                with open("user.txt", "a", encoding="utf-8") as file:
-                    file.write(f"\n{new_username}, {new_password}")
-                time.sleep(1)
-                divisory_line()
-                print("New user registered!")
-            else:
-                time.sleep(1)
-                divisory_line()
-                print("Password does not match! \nPlease, make sure next time that both passwords match!")
-        else:
-            print("Access Denied! \nYou need to have Admin Access Level \nIn order to register a new user!")
+        reg_user(username_input, usernames)
 
     elif menu == 'a':
         '''
