@@ -1,26 +1,27 @@
 # ===== IMPORTING LIBRARIES =====
 '''This is the section where I will import libraries'''
 from os import linesep
+import fileinput
 import time
 import datetime
 
 # ===== FUNCTION SECTION =====
 '''This is the section where I will keep all my functions'''
 def divisory_line():
-  '''Simple function that print out some lines on the display.'''
-  print(f"{'=' * 80}")
+    '''Simple function that print out some lines on the display.'''
+    print(f"{'=' * 80}")
 
 def header():
-  '''Simple header for the task'''
-  divisory_line()
-  print(f"{' ' * 25} TASK MANAGEMENT SYSTEM {' ' * 25}")
-  divisory_line()
+    '''Simple header for the task'''
+    divisory_line()
+    print(f"{' ' * 25} TASK MANAGEMENT SYSTEM {' ' * 25}")
+    divisory_line()
 
 def task_file():
     '''Function that will read tasks.txt file and then return a list which contains each line of the file.'''
     task_list = []
     # open tasks.txt file in order to read and store its contents to the user on future operations in another variable (task_list)
-    with open("tasks.txt", "r", encoding="utf-8") as file:
+    with open("tasks.txt", "r+", encoding="utf-8") as file:
         # iterate the file
         for line in file:
             line = line.strip(linesep).split(", ") # first, get each line of the file and then create an individual list for each task's information, excluding the \n escape characters at the end of the word
@@ -78,8 +79,7 @@ def password_list():
     return password_list # return a list that contains onle the passwords
 
 def reg_user(username):
-    '''
-    In this block I will write code to add a new user to the user.txt file
+    '''In this block I will write code to add a new user to the user.txt file
     By doing the following on these steps:
         - Request input of a new username
         - Check if the new username already existed in our database
@@ -115,9 +115,16 @@ def reg_user(username):
     else:
         print("Access Denied! \nYou need to have Admin Access Level \nIn order to register a new user!")
 
+#def modify_task(username=None, title=None, description=None, date=None, completion=None, line_index=None):
+    '''Function that modify some informations of a specific task on tasks.txt file'''
+    '''with open("tasks.txt", "r", encoding="utf-8") as file:
+        for index, line in enumerate(file):
+            if username:
+                if completion == "No":
+                    pass'''
+
 def add_task():
-    '''
-    In this function I will put code that will allow a user to add a new task to task.txt file
+    '''In this function I will put code that will allow a user to add a new task to task.txt file
     By doing the following on these steps:
         - Prompt a user for the following: 
             - A username of the person whom the task is assigned to,
@@ -152,8 +159,7 @@ def add_task():
     print("New task successfully registered!")
 
 def view_all():
-    '''
-    In this function I will put code so that the program will read the task from task_file() function and
+    '''In this function I will put code so that the program will read the task from task_file() function and
     print to the console (include spacing and labelling)
     I will do it in this way:
         - Call the function task_file(), storing it in a variable.
@@ -165,12 +171,11 @@ def view_all():
     # for loop that iterates through task_list in order to
     # extract each value and print out to the user
     for values in task_list:
-        print(f"""\nTask: \t\t\t{values[0]} \nAssigned to: \t\t{values[1]} \nDate assigned: \t\t{values[3]} \nDue date: \t\t{values[4]} \nTask complete? \t\t{values[5]} \nTask description: \n  {values[2]}\n""")
+        print(f"""\nTask: \t\t\t{values[1]} \nAssigned to: \t\t{values[0]} \nDate assigned: \t\t{values[4]} \nDue date: \t\t{values[3]} \nTask complete? \t\t{values[5]} \nTask description: \n  {values[2]}\n""")
         time.sleep(0.7)
 
 def view_mine():
-    '''
-    In this block I will put code the that will read the task from task.txt file and
+    '''In this block I will put code the that will read the task from task.txt file and
     print to the console (include spacing and labelling)
     I will do it in this way:
         - Call the function task_file() storing it in a variable.
@@ -179,22 +184,44 @@ def view_mine():
         - If they are the same print it out in a user-friendly way the task
         - Otherwise, print out that the user does not have any task
     '''
-    username_assigned_task = [] # list that will receive all usernames inside tasks.txt file
-    task_list = task_file() # call task_file() function and store in a variable
-    time.sleep(0.7)
-    # for loop that iterates through task_list in order to
-    # extract each value and append to username_assigned_task
-    for values in task_list:
-        username_assigned_task.append(values[0])
-    # if-else statement to check whether the user has or hasn't a task assigned to him/her/it
-    # Print out the corrent message on screen
-    if username_input in username_assigned_task:
-        print(f"""\nTask: \t\t\t{values[0]} \nAssigned to: \t\t{values[1]} \nDate assigned: \t\t{values[3]} \nDue date: \t\t{values[4]} \nTask complete? \t\t{values[5]} \nTask description: \n  {values[2]}\n""")
-        time.sleep(0.7)
+    try:
+        user_task_choices = 0
+        while user_task_choices != -1:
+            username_assigned_task = False 
+            task_list = task_file() # call task_file() function and store in a variable
+            time.sleep(0.7)
+            # for loop that iterates through task_list in order to
+            # extract each value and append to username_assigned_task
+            for index, values in enumerate(task_list):
+                if username_input == values[0]:
+                    print(f"""\nTask No. {index+1} \n\nTask: \t\t\t{values[1]} \nAssigned to: \t\t{values[0]} \nDate assigned: \t\t{values[4]} \nDue date: \t\t{values[3]} \nTask complete? \t\t{values[5]} \nTask description: \n  {values[2]}\n""")
+                    username_assigned_task = True
+            divisory_line()
+
+            task = int("Enter the number of the task that you would like to access: ")
+
+            '''Here we check if the user wants or either change:
+            - The completion status of the task to yes, or
+            - If wants to edit some information of the task
+                - Could change the username of the person to whom the task is assigned, or
+                - Could change the due date of the task.
+            '''
+            user_task_choices = int(input("Choose an option \n\n[1] Change Completion status of the task \n[2] Edit others information \n\n:"))
+            if user_task_choices == 1:
+                with fileinput.FileInput("tasks.txt", inplace=True, backup='.bak') as file:
+                    for index, line in enumerate(file):
+                        if index == user_task_choices - 1: # NEED CHECK IF CURRENT DATE IS LOWER THAN DUE DATE
+                            print(line.replace("No", "Yes"), end='')
+                        else:
+                            print(line, end='')
+
+                
+    except:
+        divisory_line()
+        print("\n[ERROR] You have made a wrong choice! \nPlease, try again by entering a number which correspond to a task.\n")
     else:
-        print(f"\nThe {username_input} does not have any task assigned yet.\n")
-
-
+        if username_input != values[0] and username_assigned_task == False:
+            print(f"\nThe {username_input} does not have any task assigned yet.\n")
 
 # header of the program
 time.sleep(0.7)
@@ -204,7 +231,8 @@ header()
 # ===== VARIABLES SECTION =====
 usernames = username_list()
 passwords = password_list()
-#username_input = ""
+username_input = ""
+task_list = []
 credential_list = []
 is_valid = False
 is_invalid = False
@@ -212,13 +240,11 @@ is_password = False
 is_username = False
 
 
-
-
 # ===== LOGIN SECTION =====
 '''Here we have a code that will allow a user to login.
-    - The code must read usernames and password from the user.txt file
-    - I am using a list of usernames and passwords from the file.
-    - I am using a while loop to validate my user name and password.
+- The code must read usernames and password from the user.txt file
+- I am using a list of usernames and passwords from the file.
+- I am using a while loop to validate my user name and password.
 '''
 # open user.txt file in order to check if the user has entered his/her/its correct credentials
 with open("user.txt", "r", encoding="utf-8") as file:

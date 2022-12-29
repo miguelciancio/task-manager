@@ -9,3 +9,10 @@ user_7, user7
 user_8, user8
 user_9, user9
 user_10, user10
+
+ '''Here we check if the user wants or either change:
+            - The completion status of the task to yes, or
+            - If wants to edit some information of the task
+                - Could change the username of the person to whom the task is assigned, or
+                - Could change the due date of the task.
+            '''
