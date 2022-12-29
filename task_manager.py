@@ -17,6 +17,7 @@ def header():
   divisory_line()
 
 def task_file():
+    '''Function that will read tasks.txt file and then return a list which contains each line of the file.'''
     task_list = []
     # open tasks.txt file in order to read and store its contents to the user on future operations in another variable (task_list)
     with open("tasks.txt", "r", encoding="utf-8") as file:
@@ -115,6 +116,18 @@ def reg_user(username):
         print("Access Denied! \nYou need to have Admin Access Level \nIn order to register a new user!")
 
 def add_task():
+    '''
+    In this function I will put code that will allow a user to add a new task to task.txt file
+    By doing the following on these steps:
+        - Prompt a user for the following: 
+            - A username of the person whom the task is assigned to,
+            - A title of a task,
+            - A description of the task and 
+            - the due date of the task.
+        - Then get the current date.
+        - Add the data to the file task.txt and
+        - Include the 'No' as initial value to indicate if the task is complete.
+    '''
     time.sleep(0.7)
     username_task_assignment = input("Enter username task is assign to:\t\t") # request username of the person that the task was assigned to
     task_title = input("Enter task title: \t\t\t\t") # request task's title
@@ -139,6 +152,14 @@ def add_task():
     print("New task successfully registered!")
 
 def view_all():
+    '''
+    In this function I will put code so that the program will read the task from task_file() function and
+    print to the console (include spacing and labelling)
+    I will do it in this way:
+        - Call the function task_file(), storing it in a variable.
+        - iterate through this variable to get all value individually and
+        - Then print out the results
+    '''
     task_list = task_file()
     time.sleep(0.7)
     # for loop that iterates through task_list in order to
@@ -149,15 +170,15 @@ def view_all():
 
 def view_mine():
     '''
-        In this block I will put code the that will read the task from task.txt file and
-        print to the console (include spacing and labelling)
-        I will do it in this way:
-            - Call the function task_file() storing it in a variable.
-            - Check if the username of the person logged in is the same as the username I have
-            read from the file.
-            - If they are the same print it out in a user-friendly way the task
-            - Otherwise, print out that the user does not have any task
-        '''
+    In this block I will put code the that will read the task from task.txt file and
+    print to the console (include spacing and labelling)
+    I will do it in this way:
+        - Call the function task_file() storing it in a variable.
+        - Check if the username of the person logged in is the same as the username I have
+        read from the file.
+        - If they are the same print it out in a user-friendly way the task
+        - Otherwise, print out that the user does not have any task
+    '''
     username_assigned_task = [] # list that will receive all usernames inside tasks.txt file
     task_list = task_file() # call task_file() function and store in a variable
     time.sleep(0.7)
@@ -183,7 +204,7 @@ header()
 # ===== VARIABLES SECTION =====
 usernames = username_list()
 passwords = password_list()
-username_input = ""
+#username_input = ""
 credential_list = []
 is_valid = False
 is_invalid = False
@@ -289,37 +310,22 @@ e  \t- \tExit
 
     # Check if user wants to register a new user
     if menu == 'r':
+        # call reg_user() function
         reg_user(username_input)
-
+    
+    # Check if user wants to add a new task
     elif menu == 'a':
-        '''
-        In this block I will put code that will allow a user to add a new task to task.txt file
-        By doing the following on these steps:
-            - Prompt a user for the following: 
-                - A username of the person whom the task is assigned to,
-                - A title of a task,
-                - A description of the task and 
-                - the due date of the task.
-            - Then get the current date.
-            - Add the data to the file task.txt and
-            - Include the 'No' as initial value to indicate if the task is complete.
-        '''
+        # call add_task() function
         add_task()
         
-
+    # Check if user wants to view all tasks registered
     elif menu == 'va':
-        '''
-        In this block I will put code so that the program will read the task from task.txt file and
-        print to the console (include spacing and labelling)
-        I will do it in this way:
-            - Read a line from the file.
-            - Split the line where there is comma and space.
-            - Then print the results
-        '''
+        # call view_all() function
         view_all()
 
+    # check if user wants to view all his/hers/its tasks registered
     elif menu == 'vm':
-        
+        # call view_mine() function
         view_mine()
 
     # Statistics Option that only admin has access to
