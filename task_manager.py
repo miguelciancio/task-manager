@@ -148,14 +148,30 @@ def view_all():
         time.sleep(0.7)
 
 def view_mine():
-    task_list = task_file()
+    '''
+        In this block I will put code the that will read the task from task.txt file and
+        print to the console (include spacing and labelling)
+        I will do it in this way:
+            - Call the function task_file() storing it in a variable.
+            - Check if the username of the person logged in is the same as the username I have
+            read from the file.
+            - If they are the same print it out in a user-friendly way the task
+            - Otherwise, print out that the user does not have any task
+        '''
+    username_assigned_task = [] # list that will receive all usernames inside tasks.txt file
+    task_list = task_file() # call task_file() function and store in a variable
     time.sleep(0.7)
     # for loop that iterates through task_list in order to
-    # extract each value and print out to the user
+    # extract each value and append to username_assigned_task
     for values in task_list:
-        if username_input == values[0]:
-            print(f"""\nTask: \t\t\t{values[0]} \nAssigned to: \t\t{values[1]} \nDate assigned: \t\t{values[3]} \nDue date: \t\t{values[4]} \nTask complete? \t\t{values[5]} \nTask description: \n  {values[2]}\n""")
-            time.sleep(0.7)
+        username_assigned_task.append(values[0])
+    # if-else statement to check whether the user has or hasn't a task assigned to him/her/it
+    # Print out the corrent message on screen
+    if username_input in username_assigned_task:
+        print(f"""\nTask: \t\t\t{values[0]} \nAssigned to: \t\t{values[1]} \nDate assigned: \t\t{values[3]} \nDue date: \t\t{values[4]} \nTask complete? \t\t{values[5]} \nTask description: \n  {values[2]}\n""")
+        time.sleep(0.7)
+    else:
+        print(f"\nThe {username_input} does not have any task assigned yet.\n")
 
 
 
@@ -303,16 +319,7 @@ e  \t- \tExit
         view_all()
 
     elif menu == 'vm':
-        '''
-        In this block I will put code the that will read the task from task.txt file and
-        print to the console (include spacing and labelling)
-        I will do it in this way:
-            - Read a line from the file
-            - Split the line where there is comma and space.
-            - Check if the username of the person logged in is the same as the username I have
-            read from the file.
-            - If they are the same print it out
-        '''
+        
         view_mine()
 
     # Statistics Option that only admin has access to
