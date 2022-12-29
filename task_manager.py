@@ -78,7 +78,7 @@ def reg_user(username):
         - Request input of password confirmation.
         - Check if the new password and confirmed password are the same calling password_check() function.
     '''
-    usernames = username_list()
+    usernames = username_list() # Get list of usernames from username_list() function
     # Check if username is admin.
     # If yes, execute the function
     # Otherwise, return Denied message to user.
@@ -105,7 +105,28 @@ def reg_user(username):
         print("Access Denied! \nYou need to have Admin Access Level \nIn order to register a new user!")
 
 def add_task():
-    pass
+    time.sleep(0.7)
+    username_task_assignment = input("Enter username task is assign to:\t\t") # request username of the person that the task was assigned to
+    task_title = input("Enter task title: \t\t\t\t") # request task's title
+    task_due_date = input("Enter due date of the task (dd Mmm yyyy):\t") # request task's due date
+    task_description = input("Enter task description: \n") # request task's description
+    
+
+    # get the current date time of the system and store into a variable
+    now = datetime.datetime.now()
+    # convert the current date into a string variable
+    task_date_assignment = now.strftime(f"%d %b %Y")
+    task_completion = "No"
+
+    # open tasks.txt file and append the new task registered
+    # at the end of it.
+    with open("tasks.txt", "a", encoding="utf-8") as file:
+        file.write(f"\n{username_task_assignment}, {task_title}, {task_description}, {task_due_date}, {task_date_assignment}, {task_completion}")
+    
+    # print out that the task was successfully registered
+    time.sleep(1)
+    divisory_line()
+    print("New task successfully registered!")
 
 def view_all():
     pass
@@ -250,28 +271,8 @@ e  \t- \tExit
             - Add the data to the file task.txt and
             - Include the 'No' as initial value to indicate if the task is complete.
         '''
-        time.sleep(0.7)
-        username_task_assignment = input("Enter username task is assign to:\t\t") # request username of the person that the task was assigned to
-        task_title = input("Enter task title: \t\t\t\t") # request task's title
-        task_due_date = input("Enter due date of the task (dd Mmm yyyy):\t") # request task's due date
-        task_description = input("Enter task description: \n") # request task's description
+        add_task()
         
-
-        # get the current date time of the system and store into a variable
-        now = datetime.datetime.now()
-        # convert the current date into a string variable
-        task_date_assignment = now.strftime(f"%d %b %Y")
-        task_completion = "No"
-
-        # open tasks.txt file and append the new task registered
-        # at the end of it.
-        with open("tasks.txt", "a", encoding="utf-8") as file:
-            file.write(f"\n{username_task_assignment}, {task_title}, {task_description}, {task_due_date}, {task_date_assignment}, {task_completion}")
-        
-        # print out that the task was successfully registered
-        time.sleep(1)
-        divisory_line()
-        print("New task successfully registered!")
 
     elif menu == 'va':
         '''
