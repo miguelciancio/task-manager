@@ -30,24 +30,24 @@ def user_file(file_name, mode, username, password, password_confirmation):
 
 def username_list():
     '''Function that returns a list with all usernames in user.txt file.'''
-    my_list = []
-    username_list = []
-
+    line_list = [] # List that will receive all lines from user.txt file
+    username_list = [] # list that will receive only the usernames from user.txt file
+    # open user.txt file
     with open("user.txt", "r", encoding="utf-8") as file:
         # iterate the file
         for line in file:
-            line = line.strip(linesep).split(", ") # first, get each line of the file and then create an individual list for each task's information, excluding the \n escape characters at the end of the word
-            my_list.append(line)
+            line = line.strip(linesep).split(", ") # strip the special escape character \n and split the lines
+            line_list.append(line) # append each line to line_list
+    # iterate through line_list
+    for index, value in enumerate(line_list):
+        username_list.append(value[0]) # append only the username to username_list
 
-    for index, value in enumerate(my_list):
-        username_list.append(value[0])
-
-    return username_list
+    return username_list # return a list that contains only the usernames
 
 def password_list():
     '''Function that returns a list with all passwords in user.txt file.'''
-    line_list = []
-    password_list = []
+    line_list = [] 
+    password_list = [] 
 
     with open("user.txt", "r", encoding="utf-8") as file:
         for line in file:
