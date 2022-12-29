@@ -129,7 +129,18 @@ def add_task():
     print("New task successfully registered!")
 
 def view_all():
-    pass
+    # open tasks.txt file in order to read and store its contents to the user on future operations in another variable (task_list)
+    with open("tasks.txt", "r", encoding="utf-8") as file:
+        # iterate the file
+        for line in file:
+            line = line.strip(linesep).split(", ") # first, get each line of the file and then create an individual list for each task's information, excluding the \n escape characters at the end of the word
+            task_list.append(line) # append the tasks information list into another variable (task_list)
+    time.sleep(0.7)
+    # for loop that iterates through task_list in order to
+    # extract each value and print out to the user
+    for values in task_list:
+        print(f"""\nTask: \t\t\t{values[0]} \nAssigned to: \t\t{values[1]} \nDate assigned: \t\t{values[3]} \nDue date: \t\t{values[4]} \nTask complete? \t\t{values[5]} \nTask description: \n  {values[2]}\n""")
+        time.sleep(0.7)
 
 def view_mine():
     pass
@@ -152,12 +163,7 @@ is_invalid = False
 is_password = False
 is_username = False
 
-# open tasks.txt file in order to read and store its contents to the user on future operations in another variable (task_list)
-with open("tasks.txt", "r", encoding="utf-8") as file:
-    # iterate the file
-    for line in file:
-        line = line.strip(linesep).split(", ") # first, get each line of the file and then create an individual list for each task's information, excluding the \n escape characters at the end of the word
-        task_list.append(line) # append the tasks information list into another variable (task_list)
+
 
 
 # ===== LOGIN SECTION =====
@@ -283,13 +289,7 @@ e  \t- \tExit
             - Split the line where there is comma and space.
             - Then print the results
         '''
-        time.sleep(0.7)
-        # for loop that iterates through task_list in order to
-        # extract each value and print out to the user
-        for values in task_list:
-            print(f"""\nTask: \t\t\t{values[0]} \nAssigned to: \t\t{values[1]} \nDate assigned: \t\t{values[3]} \nDue date: \t\t{values[4]} \nTask complete? \t\t{values[5]} \nTask description: \n  {values[2]}\n""")
-            time.sleep(0.7)
-
+        view_all()
 
     elif menu == 'vm':
         '''
