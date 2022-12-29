@@ -16,14 +16,21 @@ def header():
   print(f"{' ' * 25} TASK MANAGEMENT SYSTEM {' ' * 25}")
   divisory_line()
 
-def user_file(file_name, mode, username, password, password_confirmation):
-    if mode == "a" and password == password_confirmation:
-        with open(file_name, mode, encoding="utf-8") as file:
+def password_check(file_name, username, password, password_confirmation):
+    '''
+    This function checks if the user admin typed the same password during the register procedure
+    By doing the following:
+    - Check if the new password and confirmed password are the same.
+    - If they are the same, add them to the user.txt file,
+    - Otherwise it present a relevant message.
+    '''
+    if password == password_confirmation:
+        with open(file_name, encoding="utf-8") as file:
             file.write(f"\n{username}, {password}")
         time.sleep(1)
         divisory_line()
         print("New user registered!")
-    elif mode == "a" and password != password_confirmation:
+    else:
         time.sleep(1)
         divisory_line()
         print("Password does not match! \nPlease, make sure next time that both passwords match!")
@@ -69,13 +76,17 @@ def reg_user(username, username_list):
         - Otherwise it present a relevant message
         - Request input of a new password
         - Request input of password confirmation.
-        - Check if the new password and confirmed password are the same.
-        - If they are the same, add them to the user.txt file,
-        - Otherwise it present a relevant message.
+        - Check if the new password and confirmed password are the same calling password_check() function.
     '''
+    # Check if username is admin.
+    # If yes, execute the function
+    # Ot6herwise, return Denied message to user.
     if username == "admin":
         time.sleep(0.7)
         new_username = input("Enter a new username: \t") # request new username
+        # While loop that will keep asking user to enter a new username,
+        # if that username already exists in our database
+        # Otherwise, ask user to enter a password and to confirm the password
         while True:
             time.sleep(0.7)
             if new_username in username_list:
@@ -85,7 +96,7 @@ def reg_user(username, username_list):
             else:
                 new_password = input("Enter a new password: \t") # request new password
                 new_password_confirmation = input("Confirm new password: \t") # request confirmation of new password
-                user_file("user.txt", "a", new_username, new_password, new_password_confirmation)
+                password_check("user.txt", new_username, new_password, new_password_confirmation)
                 break
     else:
             print("Access Denied! \nYou need to have Admin Access Level \nIn order to register a new user!")
