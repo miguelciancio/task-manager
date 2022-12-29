@@ -40,24 +40,24 @@ def username_list():
             line_list.append(line) # append each line to line_list
     # iterate through line_list
     for index, value in enumerate(line_list):
-        username_list.append(value[0]) # append only the username to username_list
+        username_list.append(value[0]) # append only the usernames to username_list
 
     return username_list # return a list that contains only the usernames
 
 def password_list():
     '''Function that returns a list with all passwords in user.txt file.'''
-    line_list = [] 
-    password_list = [] 
-
+    line_list = [] # List that will receive all lines from user.txt file
+    password_list = [] # list that will receive only the usernames from user.txt
+    # Open user.txt file
     with open("user.txt", "r", encoding="utf-8") as file:
         for line in file:
-            line = line.strip(linesep).split(", ")
-            line_list.append(line)
-        
+            line = line.strip(linesep).split(", ") # strip the special escape character \n an split the lines
+            line_list.append(line) # append each line to line_list
+    # iterate through line_list
     for index, value in enumerate(line_list):
-        password_list.append(value[1])
+        password_list.append(value[1]) # append only the passwords to password_list
     
-    return password_list
+    return password_list # return a list that contains onle the passwords
 
 def reg_user(username, username_list):
     '''
