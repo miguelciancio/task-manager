@@ -25,7 +25,7 @@ def password_check(file_name, username, password, password_confirmation):
     - Otherwise it present a relevant message.
     '''
     if password == password_confirmation:
-        with open(file_name, encoding="utf-8") as file:
+        with open(file_name, "a", encoding="utf-8") as file:
             file.write(f"\n{username}, {password}")
         time.sleep(1)
         divisory_line()
@@ -66,7 +66,7 @@ def password_list():
     
     return password_list # return a list that contains onle the passwords
 
-def reg_user(username, username_list):
+def reg_user(username):
     '''
     In this block I will write code to add a new user to the user.txt file
     By doing the following on these steps:
@@ -78,9 +78,10 @@ def reg_user(username, username_list):
         - Request input of password confirmation.
         - Check if the new password and confirmed password are the same calling password_check() function.
     '''
+    usernames = username_list()
     # Check if username is admin.
     # If yes, execute the function
-    # Ot6herwise, return Denied message to user.
+    # Otherwise, return Denied message to user.
     if username == "admin":
         time.sleep(0.7)
         new_username = input("Enter a new username: \t") # request new username
@@ -89,17 +90,19 @@ def reg_user(username, username_list):
         # Otherwise, ask user to enter a password and to confirm the password
         while True:
             time.sleep(0.7)
-            if new_username in username_list:
+            if new_username in usernames:
                 print(f"\n[ERROR] - {new_username} already exist. Please choose another one.")
                 divisory_line()
                 new_username = input("Enter a new username: \t") # request new username
             else:
-                new_password = input("Enter a new password: \t") # request new password
-                new_password_confirmation = input("Confirm new password: \t") # request confirmation of new password
-                password_check("user.txt", new_username, new_password, new_password_confirmation)
                 break
+        new_password = input("Enter a new password: \t") # request new password
+        new_password_confirmation = input("Confirm new password: \t") # request confirmation of new password
+        password_check("user.txt", new_username, new_password, new_password_confirmation) # Check if both passwords match or not
+
+    # print out Access Denied Message to User.
     else:
-            print("Access Denied! \nYou need to have Admin Access Level \nIn order to register a new user!")
+        print("Access Denied! \nYou need to have Admin Access Level \nIn order to register a new user!")
 
 def add_task():
     pass
@@ -232,7 +235,7 @@ e  \t- \tExit
 
     # Check if user wants to register a new user
     if menu == 'r':
-        reg_user(username_input, usernames)
+        reg_user(username_input)
 
     elif menu == 'a':
         '''
