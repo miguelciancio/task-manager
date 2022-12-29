@@ -2,3 +2,4 @@ admin, Register Users with taskManager.py, Use taskManager.py to add the usernam
 admin, Assign initial tasks, Use taskManager.py to assign each team member with appropriate tasks, 10 Oct 2019, 25 Oct 2019, No
 user_4, Review input system, User_4 should check all the input entry code on the system., 01 Jan 2023, 25 Dec 2022, No
 user_1, Update BMS, user_1 should access BMS in order to update Fan System Software, 20 Jan 2023, 29 Dec 2022, No
+user_2, Update Air Things, user_2 should do firmware update of all air things purifiers in the building, 30 Jan 2023, 29 Dec 2022, No

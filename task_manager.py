@@ -16,6 +16,16 @@ def header():
   print(f"{' ' * 25} TASK MANAGEMENT SYSTEM {' ' * 25}")
   divisory_line()
 
+def task_file():
+    task_list = []
+    # open tasks.txt file in order to read and store its contents to the user on future operations in another variable (task_list)
+    with open("tasks.txt", "r", encoding="utf-8") as file:
+        # iterate the file
+        for line in file:
+            line = line.strip(linesep).split(", ") # first, get each line of the file and then create an individual list for each task's information, excluding the \n escape characters at the end of the word
+            task_list.append(line) # append the tasks information list into another variable (task_list)
+    return task_list
+
 def password_check(file_name, username, password, password_confirmation):
     '''
     This function checks if the user admin typed the same password during the register procedure
@@ -129,12 +139,7 @@ def add_task():
     print("New task successfully registered!")
 
 def view_all():
-    # open tasks.txt file in order to read and store its contents to the user on future operations in another variable (task_list)
-    with open("tasks.txt", "r", encoding="utf-8") as file:
-        # iterate the file
-        for line in file:
-            line = line.strip(linesep).split(", ") # first, get each line of the file and then create an individual list for each task's information, excluding the \n escape characters at the end of the word
-            task_list.append(line) # append the tasks information list into another variable (task_list)
+    task_list = task_file()
     time.sleep(0.7)
     # for loop that iterates through task_list in order to
     # extract each value and print out to the user
@@ -143,7 +148,14 @@ def view_all():
         time.sleep(0.7)
 
 def view_mine():
-    pass
+    task_list = task_file()
+    time.sleep(0.7)
+    # for loop that iterates through task_list in order to
+    # extract each value and print out to the user
+    for values in task_list:
+        if username_input == values[0]:
+            print(f"""\nTask: \t\t\t{values[0]} \nAssigned to: \t\t{values[1]} \nDate assigned: \t\t{values[3]} \nDue date: \t\t{values[4]} \nTask complete? \t\t{values[5]} \nTask description: \n  {values[2]}\n""")
+            time.sleep(0.7)
 
 
 
@@ -157,7 +169,6 @@ usernames = username_list()
 passwords = password_list()
 username_input = ""
 credential_list = []
-task_list = []
 is_valid = False
 is_invalid = False
 is_password = False
@@ -302,13 +313,7 @@ e  \t- \tExit
             read from the file.
             - If they are the same print it out
         '''
-        time.sleep(0.7)
-        # for loop that iterates through task_list in order to
-        # extract each value and print out to the user
-        for values in task_list:
-            if username_input == values[0]:
-                print(f"""\nTask: \t\t\t{values[0]} \nAssigned to: \t\t{values[1]} \nDate assigned: \t\t{values[3]} \nDue date: \t\t{values[4]} \nTask complete? \t\t{values[5]} \nTask description: \n  {values[2]}\n""")
-                time.sleep(0.7)
+        view_mine()
 
     # Statistics Option that only admin has access to
     # When this option is selected, it will display the 
