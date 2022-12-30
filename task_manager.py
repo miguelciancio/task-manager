@@ -28,6 +28,37 @@ def task_file():
             task_list.append(line) # append the tasks information list into another variable (task_list)
     return task_list
 
+def modify_task(username=None, title=None, choice=None):
+    line_list = []
+    line_str_list = []
+    # Aqui eu abro um arquivo de texto; pego cada linha separadamente e as coloco como sendo um valor dentro de uma lista - criando assim
+    # uma nested list em que cada valor e uma outra lista contendo como valor cada palavra de uma linha
+    with open("tasks.txt", "r", encoding="utf-8") as rfile:
+        for line in rfile:
+            line = line.strip(linesep).split(", ")
+            line_list.append(line)
+    # Aqui eu faco um loop e pego cada valor da lista line_list para poder selecionar somente a lista o qual o usuario deseja alterar.
+    # Para poder selecionar a tarefa especifica que o usuario deseja alterar, eu faco uso do nome do usuario e nome do titulo da tarefa
+    # registrado para poder checar se esses dois valores estao dentro da lista line_list.
+    # Apos selecionar a tarefa especifica que o usuario deseja alterar, eu checo qual modificacao ele deseja fazer atraves de um outro 
+    # if-elif statement.
+    # Apos determinar qual alteracao deve ser feita, eu a realizo
+    # Apos fazer as devidas alteracoes, eu faco o seguinte:
+    #   - converto a list para string
+    #   - formato a string para ficar no mesmo formato padrao original do arquivo de texto
+    #   - salvo cada string em uma nova lista
+    for line_list_value in line_list:
+        if (username in line_list_value) and (title in line_list_value):
+            if choice == 1:
+                line_list_value[5] = "Yes"
+        line_list_value = str(line_list_value).replace("[", "").replace("]", "").replace("'", "")
+        line_str_list.append(line_list_value)
+    
+    new_line = ["{}\n".format(line) for line in line_str_list]
+    # Aqui eu simplesmente abro o arquivo de texto e apago todo o conteudo dele.
+    with open("tasks.txt", "w") as wfile:
+        wfile.writelines(new_line)
+
 def password_check(file_name, username, password, password_confirmation):
     '''
     This function checks if the user admin typed the same password during the register procedure
@@ -115,13 +146,7 @@ def reg_user(username):
     else:
         print("Access Denied! \nYou need to have Admin Access Level \nIn order to register a new user!")
 
-#def modify_task(username=None, title=None, description=None, date=None, completion=None, line_index=None):
-    '''Function that modify some informations of a specific task on tasks.txt file'''
-    '''with open("tasks.txt", "r", encoding="utf-8") as file:
-        for index, line in enumerate(file):
-            if username:
-                if completion == "No":
-                    pass'''
+
 
 def add_task():
     '''In this function I will put code that will allow a user to add a new task to task.txt file
@@ -184,20 +209,29 @@ def view_mine():
         - If they are the same print it out in a user-friendly way the task
         - Otherwise, print out that the user does not have any task
     '''
-    user_task_choices = 0
-    while user_task_choices != -1:
-        username_assigned_task = False 
-        task_list = task_file() # call task_file() function and store in a variable
-        time.sleep(0.7)
-        # for loop that iterates through task_list in order to
-        # extract each value and append to username_assigned_task
-        for index, values in enumerate(task_list):
-            if username_input == values[0]:
-                print(f"""\nTask No. {index+1} \n\nTask: \t\t\t{values[1]} \nAssigned to: \t\t{values[0]} \nDate assigned: \t\t{values[4]} \nDue date: \t\t{values[3]} \nTask complete? \t\t{values[5]} \nTask description: \n  {values[2]}\n""")
-                username_assigned_task = True
-        if username_input != values[0] and username_assigned_task == False:
-            print(f"\nThe {username_input} does not have any task assigned yet.\n")
-        user_task_choices = int(input("Tipe -1: "))
+    username_assigned_task = False 
+    task_list = task_file() # call task_file() function and store in a variable
+    time.sleep(0.7)
+    # for loop that iterates through task_list in order to
+    # extract each value and append to username_assigned_task
+    for index, values in enumerate(task_list):
+        if username_input == values[0]:
+            print(f"""\nTask No. {index+1} \n\nTask: \t\t\t{values[1]} \nAssigned to: \t\t{values[0]} \nDate assigned: \t\t{values[4]} \nDue date: \t\t{values[3]} \nTask complete? \t\t{values[5]} \nTask description: \n  {values[2]}\n""")
+            username_assigned_task = True
+    if username_input != values[0] and username_assigned_task == False:
+        print(f"\nThe {username_input} does not have any task assigned yet.\n")
+    
+    menu = 0
+    while menu != -1:
+        # primeiro eu tenho que descobrir qual tarefa o usuario quer pegar
+        menu = int(input("Qual tarefa deseja alterar?  "))
+        # Agora, eu devo pegar o nome do usario e o titulo da tarefa
+        task_username = "pegar o nome do usuario da tarefa que o proprio selecionou"
+        task_title = "pegar o nome do titulo da tarefa que o proprio selecionou"
+        # Apos usuario escolher qual tarefa ele deseja alterar, eu devo perguntar o que ele quer alterar.
+        menu2 = int(input("selecione umas das opcoes do menu abaixo: 1 - marcar tarefa como completa; 2 - mudar o nome do usuario dessa tarefa; 3 - mudar o deadline da tarefa"))
+        modify_task(task_username, task_title, menu2)
+
 
 # header of the program
 time.sleep(0.7)
