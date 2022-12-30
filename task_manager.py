@@ -147,8 +147,6 @@ def reg_user(username):
     else:
         print("Access Denied! \nYou need to have Admin Access Level \nIn order to register a new user!")
 
-
-
 def add_task():
     '''In this function I will put code that will allow a user to add a new task to task.txt file
     By doing the following on these steps:
@@ -161,7 +159,6 @@ def add_task():
         - Add the data to the file task.txt and
         - Include the 'No' as initial value to indicate if the task is complete.
     '''
-    time.sleep(0.7)
     username_task_assignment = input("Enter username task is assign to:\t\t") # request username of the person that the task was assigned to
     task_title = input("Enter task title: \t\t\t\t") # request task's title
     task_due_date = input("Enter due date of the task (dd Mmm yyyy):\t") # request task's due date
@@ -219,9 +216,10 @@ def view_mine():
             if username_input == values[0]:
                 print(f"""\nTask No. {index+1} \n\nTask: \t\t\t{values[1]} \nAssigned to: \t\t{values[0]} \nDate assigned: \t\t{values[4]} \nDue date: \t\t{values[3]} \nTask complete? \t\t{values[5]} \nTask description: \n  {values[2]}\n""")
                 username_assigned_task = True
-                assigned_tasks_list.append(values)
         if username_input != values[0] and username_assigned_task == False:
             print(f"\nThe {username_input} does not have any task assigned yet.\n")
+            break
+        
         divisory_line()
         
         # Get which task user wants to change; or break the loop if enter -1.
@@ -231,8 +229,8 @@ Or enter -1 to return to the main menu
         if menu == -1:
             break
         # get the name and the title's name of the task that the user wants to change
-        for index, value in enumerate(assigned_tasks_list):
-            if (menu - 1) == index:
+        for index, value in enumerate(task_list):
+            if menu == (index + 1):
                 task_username = value[0]
                 task_title = value[1]
         # get what change the user wants to make
