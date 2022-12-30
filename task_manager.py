@@ -71,7 +71,7 @@ def password_list():
     with open("user.txt", "r", encoding="utf-8") as file:
         for line in file:
             line = line.strip(linesep).split(", ") # strip the special escape character \n an split the lines
-            line_list.append(line) # append each line to line_list
+            line_list.append(line) # append eachcd  line to line_list
     # iterate through line_list
     for index, value in enumerate(line_list):
         password_list.append(value[1]) # append only the passwords to password_list
@@ -184,44 +184,20 @@ def view_mine():
         - If they are the same print it out in a user-friendly way the task
         - Otherwise, print out that the user does not have any task
     '''
-    try:
-        user_task_choices = 0
-        while user_task_choices != -1:
-            username_assigned_task = False 
-            task_list = task_file() # call task_file() function and store in a variable
-            time.sleep(0.7)
-            # for loop that iterates through task_list in order to
-            # extract each value and append to username_assigned_task
-            for index, values in enumerate(task_list):
-                if username_input == values[0]:
-                    print(f"""\nTask No. {index+1} \n\nTask: \t\t\t{values[1]} \nAssigned to: \t\t{values[0]} \nDate assigned: \t\t{values[4]} \nDue date: \t\t{values[3]} \nTask complete? \t\t{values[5]} \nTask description: \n  {values[2]}\n""")
-                    username_assigned_task = True
-            divisory_line()
-
-            task = int("Enter the number of the task that you would like to access: ")
-
-            '''Here we check if the user wants or either change:
-            - The completion status of the task to yes, or
-            - If wants to edit some information of the task
-                - Could change the username of the person to whom the task is assigned, or
-                - Could change the due date of the task.
-            '''
-            user_task_choices = int(input("Choose an option \n\n[1] Change Completion status of the task \n[2] Edit others information \n\n:"))
-            if user_task_choices == 1:
-                with fileinput.FileInput("tasks.txt", inplace=True, backup='.bak') as file:
-                    for index, line in enumerate(file):
-                        if index == user_task_choices - 1: # NEED CHECK IF CURRENT DATE IS LOWER THAN DUE DATE
-                            print(line.replace("No", "Yes"), end='')
-                        else:
-                            print(line, end='')
-
-                
-    except:
-        divisory_line()
-        print("\n[ERROR] You have made a wrong choice! \nPlease, try again by entering a number which correspond to a task.\n")
-    else:
+    user_task_choices = 0
+    while user_task_choices != -1:
+        username_assigned_task = False 
+        task_list = task_file() # call task_file() function and store in a variable
+        time.sleep(0.7)
+        # for loop that iterates through task_list in order to
+        # extract each value and append to username_assigned_task
+        for index, values in enumerate(task_list):
+            if username_input == values[0]:
+                print(f"""\nTask No. {index+1} \n\nTask: \t\t\t{values[1]} \nAssigned to: \t\t{values[0]} \nDate assigned: \t\t{values[4]} \nDue date: \t\t{values[3]} \nTask complete? \t\t{values[5]} \nTask description: \n  {values[2]}\n""")
+                username_assigned_task = True
         if username_input != values[0] and username_assigned_task == False:
             print(f"\nThe {username_input} does not have any task assigned yet.\n")
+        user_task_choices = int(input("Tipe -1: "))
 
 # header of the program
 time.sleep(0.7)
