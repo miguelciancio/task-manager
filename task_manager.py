@@ -1,7 +1,7 @@
 # ===== IMPORTING LIBRARIES =====
 '''This is the section where I will import libraries'''
 from os import linesep
-import datetime
+from datetime import datetime
 
 # ===== FUNCTION SECTION =====
 '''This is the section where I will keep all my functions'''
@@ -26,17 +26,20 @@ def task_file():
             task_list.append(line) # append the tasks information list into another variable (task_list)
     return task_list
 
-def modify_task(username=None, title=None, choice=None):
+def modify_task(username=None, title=None, due_date=None, choice=None):
     """This function modifies specific part of the "tasks.txt" file and return a message to the user that will be print out on screen.
 
     keyword arguments:
     username -- the username of the task that the user wants to change (default None)
     title    -- the title of the task that the user wants to change (default None)
+    due date -- The currently due date of the task that the user wants to change (default None)
     choice   -- what change the user wants to do (default None)
     """
     line_list = []
     line_str_list = []
     message = ""
+    task_date = datetime.strptime(due_date, "%d %b %Y")
+    now = datetime.today()
     with open("tasks.txt", "r", encoding="utf-8") as rfile:
         for line in rfile:
             line = line.strip(linesep).split(", ")
@@ -51,6 +54,24 @@ def modify_task(username=None, title=None, choice=None):
                 else:
                     line_list_value[5] = "Yes"
                     message = f"\nTask \"{title}\" successfully changed to \"Yes\"!"
+            # Change tasks' username if currently day is lower than task due date; Otherqise print out error message
+            elif choice == 2:
+                divisory_line()
+                if now < task_date:
+                    new_username = input(f"\nEnter the new username for the task \"{title}\": ").lower().strip()
+                    line_list_value[0] = new_username
+                    message = "\nNew username successfully updated!\n"
+                else:
+                    message = f"\n[ERROR] Task \"{title}\" due date has already passed! \nTherefore, you cannot change this information anymore.\n"
+            # Change tasks' due date if currently date is lower than task due date; Otherwise print out error message
+            elif choice == 3:
+                divisory_line()
+                if now < task_date:
+                    new_due_date = input("\nEnter a new due date of the task (dd Mmm yyyy):\t")
+                    line_list_value[3] = new_due_date
+                    message = "\nNew due date succeddfully updated!\n"
+                else:
+                    message = f"\n[ERROR] Task \"{title}\" due date has already passed! \nTherefore, you cannot change this information anymore.\n"
         # Create a new list which each line inside it with the new values
         line_list_value = str(line_list_value).replace("[", "").replace("]", "").replace("'", "")
         line_str_list.append(line_list_value)
@@ -206,6 +227,7 @@ def view_mine():
     '''
     menu = 0
     while menu != int(-1):
+        count = 0
         assigned_tasks_list = []
         username_assigned_task = False 
         task_list = task_file() # call task_file() function and store in a variable
@@ -214,8 +236,10 @@ def view_mine():
         # extract each value and append to username_assigned_task
         for index, values in enumerate(task_list):
             if username_input == values[0]:
-                print(f"""\nTask No. {index+1} \n\nTask: \t\t\t{values[1]} \nAssigned to: \t\t{values[0]} \nDate assigned: \t\t{values[4]} \nDue date: \t\t{values[3]} \nTask complete? \t\t{values[5]} \nTask description: \n  {values[2]}\n""")
+                count += 1
+                print(f"""\nTask No. {count} \n\nTask: \t\t\t{values[1]} \nAssigned to: \t\t{values[0]} \nDate assigned: \t\t{values[4]} \nDue date: \t\t{values[3]} \nTask complete? \t\t{values[5]} \nTask description: \n  {values[2]}\n""")
                 username_assigned_task = True
+                assigned_tasks_list.append(values)
         if username_input != values[0] and username_assigned_task == False:
             print(f"\nThe {username_input} does not have any task assigned yet.\n")
             break
@@ -229,10 +253,11 @@ Or enter -1 to return to the main menu
         if menu == -1:
             break
         # get the name and the title's name of the task that the user wants to change
-        for index, value in enumerate(task_list):
+        for index, value in enumerate(assigned_tasks_list):
             if menu == (index + 1):
                 task_username = value[0]
                 task_title = value[1]
+                task_due_date = value[3]
         # get what change the user wants to make
         divisory_line()
         menu2 = int(input(f"""***** Task \"{task_title}\" Selected ***** \n\n
@@ -242,7 +267,7 @@ Choose one of the option below in order to modify its contents:
 [3] Change the due date of the task
 :"""))
         # call modify_task and print out its result
-        print(modify_task(task_username, task_title, menu2))
+        print(modify_task(task_username, task_title, task_due_date, menu2))
 
 
 # header of the program
