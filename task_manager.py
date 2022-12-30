@@ -1,8 +1,6 @@
 # ===== IMPORTING LIBRARIES =====
 '''This is the section where I will import libraries'''
 from os import linesep
-import fileinput
-import time
 import datetime
 
 # ===== FUNCTION SECTION =====
@@ -29,35 +27,42 @@ def task_file():
     return task_list
 
 def modify_task(username=None, title=None, choice=None):
+    """This function modifies specific part of the "tasks.txt" file and return a message to the user that will be print out on screen.
+
+    keyword arguments:
+    username -- the username of the task that the user wants to change (default None)
+    title    -- the title of the task that the user wants to change (default None)
+    choice   -- what change the user wants to do (default None)
+    """
     line_list = []
     line_str_list = []
-    # Aqui eu abro um arquivo de texto; pego cada linha separadamente e as coloco como sendo um valor dentro de uma lista - criando assim
-    # uma nested list em que cada valor e uma outra lista contendo como valor cada palavra de uma linha
+    message = ""
     with open("tasks.txt", "r", encoding="utf-8") as rfile:
         for line in rfile:
             line = line.strip(linesep).split(", ")
             line_list.append(line)
-    # Aqui eu faco um loop e pego cada valor da lista line_list para poder selecionar somente a lista o qual o usuario deseja alterar.
-    # Para poder selecionar a tarefa especifica que o usuario deseja alterar, eu faco uso do nome do usuario e nome do titulo da tarefa
-    # registrado para poder checar se esses dois valores estao dentro da lista line_list.
-    # Apos selecionar a tarefa especifica que o usuario deseja alterar, eu checo qual modificacao ele deseja fazer atraves de um outro 
-    # if-elif statement.
-    # Apos determinar qual alteracao deve ser feita, eu a realizo
-    # Apos fazer as devidas alteracoes, eu faco o seguinte:
-    #   - converto a list para string
-    #   - formato a string para ficar no mesmo formato padrao original do arquivo de texto
-    #   - salvo cada string em uma nova lista
+    # Get the specific task that the user wants to make the changes
     for line_list_value in line_list:
         if (username in line_list_value) and (title in line_list_value):
+            # Change tasks' completion to "Yes"; Print out error message if it is already "Yes"
             if choice == 1:
-                line_list_value[5] = "Yes"
+                if line_list_value[5] == "Yes":
+                    message = f"\n[ERROR] Task \"{title}\" has already been marked as \"Yes\"."
+                else:
+                    line_list_value[5] = "Yes"
+                    message = f"\nTask \"{title}\" successfully changed to \"Yes\"!"
+        # Create a new list which each line inside it with the new values
         line_list_value = str(line_list_value).replace("[", "").replace("]", "").replace("'", "")
         line_str_list.append(line_list_value)
-    
-    new_line = ["{}\n".format(line) for line in line_str_list]
-    # Aqui eu simplesmente abro o arquivo de texto e apago todo o conteudo dele.
+    # rewrite "tasks.txt" file but now with the new lines after the modification has been maden.
     with open("tasks.txt", "w") as wfile:
-        wfile.writelines(new_line)
+        for index, line in enumerate(line_str_list):
+            if (index + 1) == len(line_str_list):
+                wfile.write(line)
+            else:
+                wfile.write(f"{line}\n")
+    # Just return a message to the user in order to inform if the changes were made or not
+    return message
 
 def password_check(file_name, username, password, password_confirmation):
     '''
@@ -70,11 +75,9 @@ def password_check(file_name, username, password, password_confirmation):
     if password == password_confirmation:
         with open(file_name, "a", encoding="utf-8") as file:
             file.write(f"\n{username}, {password}")
-        time.sleep(1)
         divisory_line()
         print("New user registered!")
     else:
-        time.sleep(1)
         divisory_line()
         print("Password does not match! \nPlease, make sure next time that both passwords match!")
 
@@ -125,13 +128,11 @@ def reg_user(username):
     # If yes, execute the function
     # Otherwise, return Denied message to user.
     if username == "admin":
-        time.sleep(0.7)
         new_username = input("Enter a new username: \t") # request new username
         # While loop that will keep asking user to enter a new username,
         # if that username already exists in our database
         # Otherwise, ask user to enter a password and to confirm the password
         while True:
-            time.sleep(0.7)
             if new_username in usernames:
                 print(f"\n[ERROR] - {new_username} already exist. Please choose another one.")
                 divisory_line()
@@ -179,7 +180,6 @@ def add_task():
         file.write(f"\n{username_task_assignment}, {task_title}, {task_description}, {task_due_date}, {task_date_assignment}, {task_completion}")
     
     # print out that the task was successfully registered
-    time.sleep(1)
     divisory_line()
     print("New task successfully registered!")
 
@@ -192,12 +192,10 @@ def view_all():
         - Then print out the results
     '''
     task_list = task_file()
-    time.sleep(0.7)
     # for loop that iterates through task_list in order to
     # extract each value and print out to the user
     for values in task_list:
         print(f"""\nTask: \t\t\t{values[1]} \nAssigned to: \t\t{values[0]} \nDate assigned: \t\t{values[4]} \nDue date: \t\t{values[3]} \nTask complete? \t\t{values[5]} \nTask description: \n  {values[2]}\n""")
-        time.sleep(0.7)
 
 def view_mine():
     '''In this block I will put code the that will read the task from task.txt file and
@@ -209,32 +207,47 @@ def view_mine():
         - If they are the same print it out in a user-friendly way the task
         - Otherwise, print out that the user does not have any task
     '''
-    username_assigned_task = False 
-    task_list = task_file() # call task_file() function and store in a variable
-    time.sleep(0.7)
-    # for loop that iterates through task_list in order to
-    # extract each value and append to username_assigned_task
-    for index, values in enumerate(task_list):
-        if username_input == values[0]:
-            print(f"""\nTask No. {index+1} \n\nTask: \t\t\t{values[1]} \nAssigned to: \t\t{values[0]} \nDate assigned: \t\t{values[4]} \nDue date: \t\t{values[3]} \nTask complete? \t\t{values[5]} \nTask description: \n  {values[2]}\n""")
-            username_assigned_task = True
-    if username_input != values[0] and username_assigned_task == False:
-        print(f"\nThe {username_input} does not have any task assigned yet.\n")
-    
     menu = 0
-    while menu != -1:
-        # primeiro eu tenho que descobrir qual tarefa o usuario quer pegar
-        menu = int(input("Qual tarefa deseja alterar?  "))
-        # Agora, eu devo pegar o nome do usario e o titulo da tarefa
-        task_username = "pegar o nome do usuario da tarefa que o proprio selecionou"
-        task_title = "pegar o nome do titulo da tarefa que o proprio selecionou"
-        # Apos usuario escolher qual tarefa ele deseja alterar, eu devo perguntar o que ele quer alterar.
-        menu2 = int(input("selecione umas das opcoes do menu abaixo: 1 - marcar tarefa como completa; 2 - mudar o nome do usuario dessa tarefa; 3 - mudar o deadline da tarefa"))
-        modify_task(task_username, task_title, menu2)
+    while menu != int(-1):
+        assigned_tasks_list = []
+        username_assigned_task = False 
+        task_list = task_file() # call task_file() function and store in a variable
+        divisory_line()
+        # for loop that iterates through task_list in order to
+        # extract each value and append to username_assigned_task
+        for index, values in enumerate(task_list):
+            if username_input == values[0]:
+                print(f"""\nTask No. {index+1} \n\nTask: \t\t\t{values[1]} \nAssigned to: \t\t{values[0]} \nDate assigned: \t\t{values[4]} \nDue date: \t\t{values[3]} \nTask complete? \t\t{values[5]} \nTask description: \n  {values[2]}\n""")
+                username_assigned_task = True
+                assigned_tasks_list.append(values)
+        if username_input != values[0] and username_assigned_task == False:
+            print(f"\nThe {username_input} does not have any task assigned yet.\n")
+        divisory_line()
+        
+        # Get which task user wants to change; or break the loop if enter -1.
+        menu = int(input("""Enter the number of the task which you would like to access
+Or enter -1 to return to the main menu
+: """))
+        if menu == -1:
+            break
+        # get the name and the title's name of the task that the user wants to change
+        for index, value in enumerate(assigned_tasks_list):
+            if (menu - 1) == index:
+                task_username = value[0]
+                task_title = value[1]
+        # get what change the user wants to make
+        divisory_line()
+        menu2 = int(input(f"""***** Task \"{task_title}\" Selected ***** \n\n
+Choose one of the option below in order to modify its contents:
+[1] Mark the task as completed
+[2] Change the username of the task
+[3] Change the due date of the task
+:"""))
+        # call modify_task and print out its result
+        print(modify_task(task_username, task_title, menu2))
 
 
 # header of the program
-time.sleep(0.7)
 header()
 
 
@@ -281,46 +294,32 @@ while is_valid != True:
         # print out a messsage to user if username is correct and password wrong
         elif username_input == username and password_input != password:
             is_password = True
-            time.sleep(1)
-            divisory_line()
             print("Error: login invalid! \nPlease, enter the correct password.")
             divisory_line()
-            time.sleep(0.7)
         # print out a message to user if username is wrong
         elif username_input != username and password_input == password:
             is_username = True
-            time.sleep(1)
             divisory_line() 
             print("Error: login invalid! \nPlease, enter the correct username.")
             divisory_line()
-            time.sleep(0.7)
     # Here we stop while loop if is_valid variable is true
     if is_valid and (not is_password) and (not is_username):
         break
     # Here we print out another message if both username and password were invalid (not matched with any data inside our database)
     elif not is_valid and not is_password and not is_username:
-        time.sleep(1)
         divisory_line()
         print("Error: login invalid! \nPlease, enter correct username and password.")
         divisory_line()
-        time.sleep(0.7)
+        
 
 
 # print out successful login messaged
-time.sleep(0.7)
 divisory_line()
 print("Login successfull!")
-time.sleep(0.7)
 print("Initializing Authentication")
-time.sleep(1)
-dot = "."
-for count in range(1, 4):
-    print(dot)
-    time.sleep(1)
     
 # ===== MENU SECTION =====
 while True:
-    time.sleep(0.7)
     divisory_line()
     #presenting the menu to the user and 
     # making sure that the user input is coneverted to lower case.
@@ -342,8 +341,6 @@ s  \t- \tStatistics
 e  \t- \tExit
 : ''').lower().strip()
     
-    divisory_line()
-
     # Check if user wants to register a new user
     if menu == 'r':
         # call reg_user() function
@@ -377,8 +374,10 @@ Number of users: \t{len(credential_list) - 1}
     
     # condition to exit the program            
     elif menu == 'e':
+        divisory_line()
         print('\nGoodbye!!!')
         exit()
     # return error message if user enter wrong input
     else:
+        divisory_line()
         print("\nYou have made a wrong choice, Please Try again")
