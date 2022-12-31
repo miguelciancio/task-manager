@@ -269,6 +269,14 @@ Choose one of the option below in order to modify its contents:
         # call modify_task and print out its result
         print(modify_task(task_username, task_title, task_due_date, menu2))
 
+def display_stats():
+    total_task_list = len(task_file())
+    stats = print(f"""***** STATISTICS *****
+
+Number of tasks: \t{total_task_list}   
+Number of users: \t{len(credential_list) - 1}""") # we do credential_list - 1 to exclude the admin from the count.
+    return stats
+
 def main_menu(username):
     """This function simple returns a menu option according to the user.
     If user is admin then more options will be displayed.
@@ -401,11 +409,8 @@ while True:
     # When this option is selected, it will display the 
     # total number of tasks and the total number of users
     elif username_input == "admin" and menu == "ds":
-        total_task_list = len(task_file())
-        print(f"""***** STATISTICS *****
-Number of tasks: \t{total_task_list}   
-Number of users: \t{len(credential_list) - 1} 
-        """) # we do credential_list - 1 to exclude the admin from the count.
+        divisory_line()
+        display_stats()
     
     # condition to exit the program            
     elif menu == 'e':
