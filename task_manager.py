@@ -187,7 +187,7 @@ def add_task():
     
 
     # get the current date time of the system and store into a variable
-    now = datetime.datetime.now()
+    now = datetime.now()
     # convert the current date into a string variable
     task_date_assignment = now.strftime(f"%d %b %Y")
     task_completion = "No"
@@ -269,7 +269,7 @@ Choose one of the option below in order to modify its contents:
         # call modify_task and print out its result
         print(modify_task(task_username, task_title, task_due_date, menu2))
 
-def menu(username):
+def main_menu(username):
     """This function simple returns a menu option according to the user.
     If user is admin then more options will be displayed.
 
@@ -309,7 +309,6 @@ header()
 usernames = username_list()
 passwords = password_list()
 username_input = ""
-task_list = []
 credential_list = []
 is_valid = False
 is_invalid = False
@@ -377,7 +376,7 @@ while True:
     divisory_line()
     #presenting the menu to the user and 
     # making sure that the user input is coneverted to lower case.
-    menu(username_input)
+    menu = main_menu(username_input)
     # Check if user wants to register a new user
     if menu == 'r':
         # call reg_user() function
@@ -401,11 +400,10 @@ while True:
     # Statistics Option that only admin has access to
     # When this option is selected, it will display the 
     # total number of tasks and the total number of users
-    elif username_input == "admin" and menu == "s":
+    elif username_input == "admin" and menu == "ds":
+        total_task_list = len(task_file())
         print(f"""***** STATISTICS *****
-{task_list}
-{credential_list}
-Number of tasks: \t{len(task_list)}   
+Number of tasks: \t{total_task_list}   
 Number of users: \t{len(credential_list) - 1} 
         """) # we do credential_list - 1 to exclude the admin from the count.
     
