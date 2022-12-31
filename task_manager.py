@@ -277,6 +277,54 @@ Number of tasks: \t{total_task_list}
 Number of users: \t{len(credential_list) - 1}""") # we do credential_list - 1 to exclude the admin from the count.
     return stats
 
+def generate_reports():
+    """Function that creates a text file called task_overview.txt which contains the following:
+    
+    1 - The total number of tasks that have been generated and tracked using the application.
+    2 - The total number of completed tasks.
+    3 - The total number of uncompleted tasks.
+    4 - The total number of tasks that haven't been completed and that are overdue.
+    5 - The percentage of tasks that are incomplete.
+    6 - The percentage of tasks that are overdue.
+    """
+    task_list = task_file()
+    total_tasks_number = len(task_list)
+    total_completed_tasks = 0
+    now = datetime.today() # todays date
+    total_tasks_uncompleted_overdue = 0
+    total_tasks_overdue = 0
+    for line in task_list:
+        if line[-1] == "Yes":
+            total_completed_tasks += 1
+        task_date = datetime.strptime(line[-3], "%d %b %Y") # task due date
+        if line[-1] == "No" and ((task_date == now) or (task_date < now)):
+            total_tasks_uncompleted_overdue += 1
+        if (task_date == now) or (task_date < now):
+            total_tasks_overdue += 1
+    total_uncompleted_tasks = total_tasks_number - total_completed_tasks
+    uncompleted_tasks_percent = (total_uncompleted_tasks * 100) / total_tasks_number
+    total_tasks_overdue_percent = (total_tasks_overdue * 100) / total_tasks_number
+    # create (if not existed) task_overview.txt file and write the report in it
+    with open("task_overview.txt", "w", encoding="utf-8") as wfile:
+        wfile.write("********** ADMIN TASK OVERVIEW REPORT **********\n")
+        wfile.write("\n")
+        wfile.write(f"Total Number of Tasks {'.' * 39} {total_tasks_number}.\n")
+        wfile.write(f"Total Number of Completed Tasks {'.' * 29} {total_completed_tasks}.\n")
+        wfile.write(f"Total Number of Uncompleted Tasks {'.' * 27} {total_uncompleted_tasks}.\n")
+        wfile.write(f"Total Number of Uncompleted and Overdue Tasks {'.' * 15} {total_tasks_uncompleted_overdue}.\n")
+        wfile.write(f"Percentage of Uncompleted Tasks {'.' * 29} {uncompleted_tasks_percent:.2f}%.\n")
+        wfile.write(f"Percentage of Overdue Tasks {'.' * 33} {total_tasks_overdue_percent:.2f}%.\n")
+        wfile.write("\n")
+        wfile.write("******************* END *************************")
+    # message that will be print out on user's screen
+    message = print(f"""
+Task Overview Report Successfully Generated.
+Please, check for 'task_overview.txt' file 
+in your folder in order to read it.
+""")
+
+    return message
+
 def main_menu(username):
     """This function simple returns a menu option according to the user.
     If user is admin then more options will be displayed.
@@ -305,13 +353,8 @@ e  \t- \tExit
 
     return user_menu
 
-
-
-
-
 # header of the program
 header()
-
 
 # ===== VARIABLES SECTION =====
 usernames = username_list()
@@ -405,13 +448,17 @@ while True:
         # call view_mine() function
         view_mine()
 
+    elif username_input == "admin" and menu == "gr":
+        divisory_line()
+        generate_reports()
+
     # Statistics Option that only admin has access to
     # When this option is selected, it will display the 
     # total number of tasks and the total number of users
     elif username_input == "admin" and menu == "ds":
         divisory_line()
         display_stats()
-    
+
     # condition to exit the program            
     elif menu == 'e':
         divisory_line()
@@ -420,4 +467,4 @@ while True:
     # return error message if user enter wrong input
     else:
         divisory_line()
-        print("\nYou have made a wrong choice, Please Try again")
+        print("\nYou have made a wrong choice \nPlease Try again!\n")
