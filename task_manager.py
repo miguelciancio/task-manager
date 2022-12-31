@@ -269,6 +269,37 @@ Choose one of the option below in order to modify its contents:
         # call modify_task and print out its result
         print(modify_task(task_username, task_title, task_due_date, menu2))
 
+def menu(username):
+    """This function simple returns a menu option according to the user.
+    If user is admin then more options will be displayed.
+
+    Keyword arguments:
+    username -- The username that has logged in the app.
+    """
+    if username == "admin":
+        user_menu = input('''Select one of the following Options below:
+r  \t- \tRegistering a user
+a  \t- \tAdding a task
+va \t- \tView all tasks
+vm \t- \tView my task
+gr \t- \tGenerate Reports
+ds \t- \tStatistics
+e  \t- \tExit
+: ''').lower().strip()
+    else:
+        user_menu = input('''Select one of the following Options below:
+r  \t- \tRegistering a user
+a  \t- \tAdding a task
+va \t- \tView all tasks
+vm \t- \tView my task
+e  \t- \tExit
+: ''').lower().strip()
+
+    return user_menu
+
+
+
+
 
 # header of the program
 header()
@@ -346,24 +377,7 @@ while True:
     divisory_line()
     #presenting the menu to the user and 
     # making sure that the user input is coneverted to lower case.
-    if username_input != "admin":
-        menu = input('''Select one of the following Options below:
-r  \t- \tRegistering a user
-a  \t- \tAdding a task
-va \t- \tView all tasks
-vm \t- \tview my task
-e  \t- \tExit
-: ''').lower().strip()
-    else:
-        menu = input('''Select one of the following Options below:
-r  \t- \tRegistering a user
-a  \t- \tAdding a task
-va \t- \tView all tasks
-vm \t- \tView my task
-s  \t- \tStatistics
-e  \t- \tExit
-: ''').lower().strip()
-    
+    menu(username_input)
     # Check if user wants to register a new user
     if menu == 'r':
         # call reg_user() function
