@@ -1,10 +1,10 @@
 ********** ADMIN TASK OVERVIEW REPORT **********
 
-Total Number of Tasks ....................................... 10.
-Total Number of Completed Tasks ............................. 2.
-Total Number of Uncompleted Tasks ........................... 8.
-Total Number of Uncompleted and Overdue Tasks ............... 3.
-Percentage of Uncompleted Tasks ............................. 80.00%.
-Percentage of Overdue Tasks ................................. 30.00%.
+Total Number of Tasks ....................................... 4.
+Total Number of Completed Tasks ............................. 1.
+Total Number of Uncompleted Tasks ........................... 3.
+Total Number of Uncompleted and Overdue Tasks ............... 2.
+Percentage of Uncompleted Tasks ............................. 75.00%.
+Percentage of Overdue Tasks ................................. 50.00%.
 
 ******************* END *************************
