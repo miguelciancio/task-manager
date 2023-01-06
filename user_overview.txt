@@ -1,15 +1,19 @@
 ********** ADMIN USERS OVERVIEW REPORT **********
 
-Total number of registered users: 3.
-Total number of tasks: 4.
+Total number of registered users: 5.
+Total number of tasks: 8.
 
 Total Number of Tasks assigned to each user and its percentage of the total number of tasks registered:
-User: admin 		 No: 2 		 Percentage(%): 50.00%.
-User: user_1 		 No: 2 		 Percentage(%): 50.00%.
+User: admin 		 Number of Tasks: 2 		 Percentage(%): 25.00%.
+User: user_1 		 Number of Tasks: 2 		 Percentage(%): 25.00%.
+User: user_3 		 Number of Tasks: 2 		 Percentage(%): 25.00%.
+User: user_2 		 Number of Tasks: 2 		 Percentage(%): 25.00%.
 
 Percentage of the total number of tasks assigned to each user that either have been completed or must still be completed:
 User: admin 		 Percentage Completed Tasks(%):  0.00% 		 Percentage Incomplete Tasks(%): 100.00%.
-User: user_1 		 Percentage Completed Tasks(%): 50.00% 		 Percentage Incomplete Tasks(%): 50.00%.
+User: user_1 		 Percentage Completed Tasks(%): 50.00% 		 Percentage Incomplete Tasks(%):  50.00%.
+User: user_3 		 Percentage Completed Tasks(%): 50.00% 		 Percentage Incomplete Tasks(%):  50.00%.
+User: user_2 		 Percentage Completed Tasks(%): 50.00% 		 Percentage Incomplete Tasks(%):  50.00%.
 
 Percentage of the total number of tasks assigned to each user that have not yet been completed and are overdue:
 User: admin 		 Percentage(%): 100.00%.

@@ -1,25 +1,27 @@
 # ===== IMPORTING LIBRARIES =====
-'''This is the section where I will import libraries'''
+"""This is the section where I will import libraries"""
 from os import linesep
 from datetime import datetime
 
 # ===== FUNCTION SECTION =====
-'''This is the section where I will keep all my functions'''
+"""This is the section where I will keep all my functions"""
 def divisory_line():
-    '''Simple function that print out some lines on the display.'''
+    """Simple function that print out some lines on the display."""
     print(f"{'=' * 80}")
 
 def header():
-    '''Simple header for the task'''
+    """Simple header for the task"""
     divisory_line()
     print(f"{' ' * 25} TASK MANAGEMENT SYSTEM {' ' * 25}")
     divisory_line()
 
 def user_file():
+    """This function basically returns a list which contains a dictionary of all usernames and passwords."""
     user_list = []
 
     with open("user.txt", "r", encoding="utf-8") as file:
         for line in map(str.strip, file):
+            # Here, the app ignores any blank line inside the user.txt file.
             if not line:
                 continue
             username, password = [
@@ -34,7 +36,14 @@ def user_file():
     return user_list
 
 def task_file():
-    '''Function that will read tasks.txt file and then return a list which contains each line of the file.'''
+    """Function that returns a list which contains dictionaries as values with the following key-value pair from tasks.txt file:
+    - Username
+    - Title
+    - Description
+    - Issued
+    - Due
+    - Status
+    """
     task_list = []
     # open tasks.txt file in order to read and store its contents to the user on future operations in another variable (task_list)
     with open("tasks.txt", "r+", encoding="utf-8") as file:
@@ -85,7 +94,7 @@ def modify_task(username=None, title=None, due_date=None, choice=None):
                 else:
                     line_list_value[5] = "Yes"
                     message = f"\nTask \"{title}\" successfully changed to \"Yes\"!"
-            # Change tasks' username if currently day is lower than task due date; Otherqise print out error message
+            # Change tasks' username if currently day is lower than task due date; Otherwise print out error message
             elif choice == 2:
                 divisory_line()
                 if now < due_date:
@@ -116,8 +125,6 @@ def modify_task(username=None, title=None, due_date=None, choice=None):
     # Just return a message to the user in order to inform if the changes were made or not
     return message
 
-    #usernames = username_list()
-
 def password_check(file_name, username, password, password_confirmation):
     """This function checks if the user admin entered the same password during the register procedure.
     If yes, the application add the new user in the system.
@@ -139,16 +146,11 @@ def password_check(file_name, username, password, password_confirmation):
         print("Password does not match! \nPlease, make sure next time that both passwords match!")
 
 def reg_user(username):
-    '''In this block I will write code to add a new user to the user.txt file
-    By doing the following on these steps:
-        - Request input of a new username
-        - Check if the new username already existed in our database
-        - If it doesn't exist, add it to the user.txt file
-        - Otherwise it present a relevant message
-        - Request input of a new password
-        - Request input of password confirmation.
-        - Check if the new password and confirmed password are the same calling password_check() function.
-    '''
+    """This function adds a new user to the user.txt file.
+
+    keyword arguments:
+    username -- the username that the admin user wants to add in the system. 
+    """
     user_data = user_file() 
 
     usernames = []
@@ -176,17 +178,7 @@ def reg_user(username):
         print("Access Denied! \nYou need to have Admin Access Level \nIn order to register a new user!")
 
 def add_task():
-    '''In this function I will put code that will allow a user to add a new task to task.txt file
-    By doing the following on these steps:
-        - Prompt a user for the following: 
-            - A username of the person whom the task is assigned to,
-            - A title of a task,
-            - A description of the task and 
-            - the due date of the task.
-        - Then get the current date.
-        - Add the data to the file task.txt and
-        - Include the 'No' as initial value to indicate if the task is complete.
-    '''
+    """This function adds a new task into the tasks.txt file."""
     username_task_assignment = input("Enter username task is assign to:\t\t") # request username of the person that the task was assigned to
     task_title = input("Enter task title: \t\t\t\t") # request task's title
     task_due_date = input("Enter due date of the task (dd Mmm yyyy):\t") # request task's due date
@@ -202,39 +194,28 @@ def add_task():
     # open tasks.txt file and append the new task registered
     # at the end of it.
     with open("tasks.txt", "a", encoding="utf-8") as file:
-        file.write(f"\n{username_task_assignment}, {task_title}, {task_description}, {task_due_date}, {task_date_assignment}, {task_completion}")
+        file.write(f"\n{username_task_assignment}, {task_title}, {task_description}, {task_date_assignment}, {task_due_date}, {task_completion}")
     
     # print out that the task was successfully registered
     divisory_line()
     print("New task successfully registered!")
 
 def view_all():
-    '''In this function I will put code so that the program will read the task from task_file() function and
-    print to the console (include spacing and labelling)
-    I will do it in this way:
-        - Call the function task_file(), storing it in a variable.
-        - iterate through this variable to get all value individually and
-        - Then print out the results
-    '''
+    """This function displays all the tasks registered on screen in an easy-friendly way."""
     task_list = task_file()
-    # for loop that iterates through task_list in order to
-    # extract each value and print out to the user
     for task_value in task_list:
-        task_due = task_value["due"]
+        task_due = task_value["due"] # store in a variable in order to change output formatting.
         print(f"""\nTask: \t\t\t{task_value["title"]} \nAssigned to: \t\t{task_value["username"]} \
         \nDate assigned: \t\t{task_value["issued"]} \nDue date: \t\t{task_due.strftime("%d %b %Y")}\
         \nTask complete? \t\t{task_value["status"]} \nTask description: \n  {task_value["desc"]}\n""")
 
 def view_mine():
-    '''In this block I will put code the that will read the task from task.txt file and
-    print to the console (include spacing and labelling)
-    I will do it in this way:
-        - Call the function task_file() storing it in a variable.
-        - Check if the username of the person logged in is the same as the username I have
-        read from the file.
-        - If they are the same print it out in a user-friendly way the task
-        - Otherwise, print out that the user does not have any task
-    '''
+    """This function displays all the tasks specifically to each user on screen in an easy-friendly way.
+    Also, allows the user to change the following data on each task:
+    - completion status of the task to 'yes'.
+    - username of the task.
+    - due date of the taks.
+    """
     menu = 0
     while menu != int(-1):
         count = 0
@@ -283,12 +264,12 @@ Choose one of the option below in order to modify its contents:
         print(modify_task(task_username, task_title, task_due_date, menu2))
 
 def generate_reports():
-    """Function that creates a text file called task_overview.txt which contains the following:
-    """
+    """Function that creates two different reports - user overview and task overview - for the admin user only."""
     task_list = task_file()
     user_list = user_file()
-    now =  datetime.today()
+    now =  datetime.today() # currently date to compare with due date of the task.
 
+    # Variables that will be used later on this function.
     usernames = []
     titles = []
     users_tasks = {}
@@ -303,23 +284,26 @@ def generate_reports():
 
     # ===== USER REPORTS =====
 
+    # create a list with all usernames
     for user_data in user_list:
         usernames.append(user_data["user"])
 
-    usernames_registered = set(usernames)
-    total_usernames_registered = len(usernames_registered)
+    usernames_registered = set(usernames) # get all UNIQUES usernames.
+    total_usernames_registered = len(usernames_registered) # total of usernames
 
+    # iterate through task_list to get all the relevant datas.
     for data in task_list:
-        titles.append(data["title"])
-        users_tasks.setdefault(data["username"], []).append(data["title"])
-        tasks_status.setdefault(data["username"], []).append(data["status"])
+        titles.append(data["title"]) # title.
+        users_tasks.setdefault(data["username"], []).append(data["title"]) # all tasks of each user.
+        tasks_status.setdefault(data["username"], []).append(data["status"]) # all status' tasks of each user.
         if data["status"] == "No" and (now > data["due"]):
-            tasks_uncompleted_overdue.setdefault(data["username"], []).append(data["due"])
+            tasks_uncompleted_overdue.setdefault(data["username"], []).append(data["due"]) # all incomplete and overdue tasks of each user.
             total_tasks_uncompleted_overdue += 1
     
-    tasks_registered = set(titles)
+    tasks_registered = set(titles) # make sure there is no duplicate tasks.
     total_tasks_registered = len(tasks_registered)
 
+    # write down users' report in an easy-friendly read way.
     with open("user_overview.txt", "w") as wfile:
         wfile.write("********** ADMIN USERS OVERVIEW REPORT **********\n")
         wfile.write("\n")
@@ -327,7 +311,7 @@ def generate_reports():
         wfile.write(f"Total number of tasks: {total_tasks_registered}.\n")
         wfile.write(f"\nTotal Number of Tasks assigned to each user and its percentage of the total number of tasks registered:\n")
         for user in users_tasks:
-            wfile.write(f"User: {user} \t\t No: {len(users_tasks[user])} \t\t Percentage(%): {(len(users_tasks[user]) / len(titles)) * 100:.2f}%.\n")
+            wfile.write(f"User: {user} \t\t Number of Tasks: {len(users_tasks[user])} \t\t Percentage(%): {(len(users_tasks[user]) / len(titles)) * 100:.2f}%.\n")
         wfile.write(f"\nPercentage of the total number of tasks assigned to each user that either have been completed or must still be completed:\n")
         for user in tasks_status:
             for status in tasks_status[user]:
@@ -351,6 +335,7 @@ def generate_reports():
 
     # ===== TASKS REPORTS =====
 
+    # write down tasks' report in an easy-friendly read way.
     with open("task_overview.txt", "w", encoding="utf-8") as wfile:
         wfile.write("********** ADMIN TASK OVERVIEW REPORT **********\n")
         wfile.write("\n")
@@ -362,9 +347,16 @@ def generate_reports():
         wfile.write(f"Percentage of Overdue Tasks {'.' * 33} {(total_tasks_uncompleted_overdue / total_tasks_registered) * 100:.2f}%.\n")
         wfile.write("\n")
         wfile.write("******************* END *************************")
+    
+    divisory_line()
+    print("Reports created! \nPlease, check your folder for \"user_overview.txt\" file \nand \"tasks_overview.txt\" file.")
+    
 
 def display_stats():
-    generate_reports()
+    """This function print out on screen exactly the same report that was generated by the admin user.
+    If reports does not exist, it create then first.
+    """
+    generate_reports() # create reports in case of they do not exist.
 
     with open("user_overview.txt", "r", encoding="utf-8") as rfile:
         for line in rfile:

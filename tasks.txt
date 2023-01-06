@@ -2,3 +2,7 @@ admin, Register Users with taskManager.py, Use taskManager.py to add the usernam
 admin, Assign initial tasks, Use taskManager.py to assign each team member with appropriate tasks, 10 Oct 2019, 25 Oct 2019, No
 user_1, Test, Test, 01 Jan 2023, 18 Jan 2023, Yes
 user_1, Test2, Test2, 05 Jan 2023, 23 Jan 2023, No
+user_3, Check Fatal Error on BMS , Please proceed with a full check out on BMS as soos as possible in order to find out what cause the fatal error, 06 Jan 2023, 08 Jan 2023, No
+user_2, Recover one computer, recover one computer which presented blue screen fatal windows error, 06 Jan 2023, 09 Jan 2023, No
+user_3, Test4, Test 4 - :D, 06 Jan 2023, 07 Jan 2023, Yes
+user_2, njocndc, lkavspvdcpmjvp, 06 Jan 2023, 19 Jan 2023, Yes
