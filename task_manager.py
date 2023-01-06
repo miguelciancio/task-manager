@@ -67,7 +67,9 @@ def task_file():
             )
     return task_list
 
-def modify_task(username=None, title=None, due_date=None, choice=None):
+def modify_task(
+        username=None, title=None, due_date=None, 
+        choice=None):
     """This function modifies specific part of the "tasks.txt" file and return a message to the user that will be print out on screen.
 
     keyword arguments:
@@ -86,7 +88,8 @@ def modify_task(username=None, title=None, due_date=None, choice=None):
             line_list.append(line)
     # Get the specific task that the user wants to make the changes
     for line_list_value in line_list:
-        if (username in line_list_value) and (title in line_list_value):
+        if (username in line_list_value and
+            title in line_list_value):
             # Change tasks' completion to "Yes"; Print out error message if it is already "Yes"
             if choice == 1:
                 if line_list_value[5] == "Yes":
@@ -125,7 +128,9 @@ def modify_task(username=None, title=None, due_date=None, choice=None):
     # Just return a message to the user in order to inform if the changes were made or not
     return message
 
-def password_check(file_name, username, password, password_confirmation):
+def password_check(
+    file_name, username, password, 
+    password_confirmation):
     """This function checks if the user admin entered the same password during the register procedure.
     If yes, the application add the new user in the system.
     Otherwise, print out a message saying passwords doesn't match.
@@ -158,7 +163,7 @@ def reg_user(username):
         usernames.append(data["user"])
 
     if username == "admin":
-        new_username = input("Enter a new username: \t") # request new username
+        new_username = input("Enter a new username: \t")  # request new username
         # While loop that will keep asking user to enter a new username,
         # if that username already exists in our database
         # Otherwise, ask user to enter a password and to confirm the password
@@ -166,12 +171,14 @@ def reg_user(username):
             if new_username in usernames:
                 print(f"\n[ERROR] - {new_username} already exist. Please choose another one.")
                 divisory_line()
-                new_username = input("Enter a new username: \t") # request new username
+                new_username = input("Enter a new username: \t")  # request new username
             else:
                 break
-        new_password = input("Enter a new password: \t") # request new password
-        new_password_confirmation = input("Confirm new password: \t") # request confirmation of new password
-        password_check("user.txt", new_username, new_password, new_password_confirmation) # Check if both passwords match or not
+        new_password = input("Enter a new password: \t")  # request new password
+        new_password_confirmation = input("Confirm new password: \t")  # request confirmation of new password
+        password_check(
+            "user.txt", new_username, new_password, 
+            new_password_confirmation)  # Check if both passwords match or not
 
     # print out Access Denied Message to User.
     else:
@@ -179,12 +186,11 @@ def reg_user(username):
 
 def add_task():
     """This function adds a new task into the tasks.txt file."""
-    username_task_assignment = input("Enter username task is assign to:\t\t") # request username of the person that the task was assigned to
-    task_title = input("Enter task title: \t\t\t\t") # request task's title
-    task_due_date = input("Enter due date of the task (dd Mmm yyyy):\t") # request task's due date
-    task_description = input("Enter task description: \n") # request task's description
+    username_task_assignment = input("Enter username task is assign to:\t\t")  # request username of the person that the task was assigned to
+    task_title = input("Enter task title: \t\t\t\t")  # request task's title
+    task_due_date = input("Enter due date of the task (dd Mmm yyyy):\t")  # request task's due date
+    task_description = input("Enter task description: \n")  # request task's description
     
-
     # get the current date time of the system and store into a variable
     now = datetime.now()
     # convert the current date into a string variable
@@ -204,7 +210,7 @@ def view_all():
     """This function displays all the tasks registered on screen in an easy-friendly way."""
     task_list = task_file()
     for task_value in task_list:
-        task_due = task_value["due"] # store in a variable in order to change output formatting.
+        task_due = task_value["due"]  # store in a variable in order to change output formatting.
         print(f"""\nTask: \t\t\t{task_value["title"]} \nAssigned to: \t\t{task_value["username"]} \
         \nDate assigned: \t\t{task_value["issued"]} \nDue date: \t\t{task_due.strftime("%d %b %Y")}\
         \nTask complete? \t\t{task_value["status"]} \nTask description: \n  {task_value["desc"]}\n""")
@@ -221,7 +227,7 @@ def view_mine():
         count = 0
         assigned_tasks_list = []
         username_assigned_task = False 
-        task_list = task_file() # call task_file() function and store in a variable
+        task_list = task_file()  # call task_file() function and store in a variable
         divisory_line()
         # for loop that iterates through task_list in order to
         # extract each value and append to username_assigned_task
@@ -234,7 +240,8 @@ def view_mine():
                 \nTask complete? \t\t{task_value["status"]} \nTask description: \n  {task_value["desc"]}\n""")
                 username_assigned_task = True
                 assigned_tasks_list.append(task_value)
-        if username_input != task_value["username"] and username_assigned_task == False:
+        if (username_input != task_value["username"] and 
+            username_assigned_task == False):
             print(f"\nThe {username_input} does not have any task assigned yet.\n")
             break
         
@@ -261,13 +268,15 @@ Choose one of the option below in order to modify its contents:
 [3] Change the due date of the task
 :"""))
         # call modify_task and print out its result
-        print(modify_task(task_username, task_title, task_due_date, menu2))
+        print(modify_task(
+            task_username, task_title, task_due_date, 
+            menu2))
 
 def generate_reports():
     """Function that creates two different reports - user overview and task overview - for the admin user only."""
     task_list = task_file()
     user_list = user_file()
-    now =  datetime.today() # currently date to compare with due date of the task.
+    now =  datetime.today()  # currently date to compare with due date of the task.
 
     # Variables that will be used later on this function.
     usernames = []
@@ -288,19 +297,20 @@ def generate_reports():
     for user_data in user_list:
         usernames.append(user_data["user"])
 
-    usernames_registered = set(usernames) # get all UNIQUES usernames.
-    total_usernames_registered = len(usernames_registered) # total of usernames
+    usernames_registered = set(usernames)  # get all UNIQUES usernames.
+    total_usernames_registered = len(usernames_registered)  # total of usernames
 
     # iterate through task_list to get all the relevant datas.
     for data in task_list:
-        titles.append(data["title"]) # title.
-        users_tasks.setdefault(data["username"], []).append(data["title"]) # all tasks of each user.
-        tasks_status.setdefault(data["username"], []).append(data["status"]) # all status' tasks of each user.
-        if data["status"] == "No" and (now > data["due"]):
-            tasks_uncompleted_overdue.setdefault(data["username"], []).append(data["due"]) # all incomplete and overdue tasks of each user.
+        titles.append(data["title"])  # title.
+        users_tasks.setdefault(data["username"], []).append(data["title"])  # all tasks of each user.
+        tasks_status.setdefault(data["username"], []).append(data["status"])  # all status' tasks of each user.
+        if (data["status"] == "No" and 
+            now > data["due"]):
+            tasks_uncompleted_overdue.setdefault(data["username"], []).append(data["due"])  # all incomplete and overdue tasks of each user.
             total_tasks_uncompleted_overdue += 1
     
-    tasks_registered = set(titles) # make sure there is no duplicate tasks.
+    tasks_registered = set(titles)  # make sure there is no duplicate tasks.
     total_tasks_registered = len(tasks_registered)
 
     # write down users' report in an easy-friendly read way.
@@ -311,7 +321,7 @@ def generate_reports():
         wfile.write(f"Total number of tasks: {total_tasks_registered}.\n")
         wfile.write(f"\nTotal Number of Tasks assigned to each user and its percentage of the total number of tasks registered:\n")
         for user in users_tasks:
-            wfile.write(f"User: {user} \t\t Number of Tasks: {len(users_tasks[user])} \t\t Percentage(%): {(len(users_tasks[user]) / len(titles)) * 100:.2f}%.\n")
+            wfile.write(f"""User: {user} \t\t Number of Tasks: {len(users_tasks[user])} \t\t Percentage(%): {(len(users_tasks[user]) / len(titles)) * 100:.2f}%.\n""")
         wfile.write(f"\nPercentage of the total number of tasks assigned to each user that either have been completed or must still be completed:\n")
         for user in tasks_status:
             for status in tasks_status[user]:
@@ -325,7 +335,7 @@ def generate_reports():
             tasks_completed = 0
             tasks_uncompleted = 0
         wfile.write(f"\nPercentage of the total number of tasks assigned to each user that have not yet been completed and are overdue:\n")
-        if len(tasks_uncompleted_overdue) == 0:
+        if not tasks_uncompleted_overdue:
             wfile.write(f"0% - All users have completed all their tasks so far!\n")
         else:
             for user in tasks_uncompleted_overdue:
@@ -427,25 +437,32 @@ while is_valid != True:
     # for loop that goes through credential_list in order to check if user's input matches with data inside this list
     for credential_data in credentials:
         # check if username and password match with any user login in the list storing this information in a boolean variable; stops the for loopping
-        if username_input == credential_data["user"] and password_input == credential_data["password"]:
+        if (username_input == credential_data["user"] and 
+            password_input == credential_data["password"]):
             is_valid = True
             break
         # print out a messsage to user if username is correct and password wrong
-        elif username_input == credential_data["user"] and password_input != credential_data["password"]:
+        elif (username_input == credential_data["user"] and 
+            password_input != credential_data["password"]):
             is_password = True
             print("Error: login invalid! \nPlease, enter the correct password.")
             divisory_line()
         # print out a message to user if username is wrong
-        elif username_input != credential_data["user"] and password_input == credential_data["password"]:
+        elif (username_input != credential_data["user"] and 
+            password_input == credential_data["password"]):
             is_username = True
             divisory_line() 
             print("Error: login invalid! \nPlease, enter the correct username.")
             divisory_line()
     # Here we stop while loop if is_valid variable is true
-    if is_valid and (not is_password) and (not is_username):
+    if (is_valid and 
+        not is_password and 
+        not is_username):
         break
     # Here we print out another message if both username and password were invalid (not matched with any data inside our database)
-    elif not is_valid and not is_password and not is_username:
+    elif (not is_valid and 
+        not is_password and 
+        not is_username):
         divisory_line()
         print("Error: login invalid! \nPlease, enter correct username and password.")
         divisory_line()
@@ -460,36 +477,32 @@ print("Initializing Authentication")
 # ===== MENU SECTION =====
 while True:
     divisory_line()
-    #presenting the menu to the user and 
-    # making sure that the user input is coneverted to lower case.
+    # presenting the menu to the user and
     menu = main_menu(username_input)
     # Check if user wants to register a new user
     if menu == 'r':
-        # call reg_user() function
         reg_user(username_input)
     
     # Check if user wants to add a new task
     elif menu == 'a':
-        # call add_task() function
         add_task()
         
     # Check if user wants to view all tasks registered
     elif menu == 'va':
-        # call view_all() function
         view_all()
 
     # check if user wants to view all his/hers/its tasks registered
     elif menu == 'vm':
-        # call view_mine() function
         view_mine()
 
-    elif username_input == "admin" and menu == "gr":
+    # Generate Reports Option that only admin has access to
+    elif (username_input == "admin" and 
+        menu == "gr"):
         generate_reports()
 
     # Statistics Option that only admin has access to
-    # When this option is selected, it will display the 
-    # total number of tasks and the total number of users
-    elif username_input == "admin" and menu == "ds":
+    elif (username_input == "admin" and 
+        menu == "ds"):
         divisory_line()
         display_stats()
 
@@ -498,6 +511,7 @@ while True:
         divisory_line()
         print('\nGoodbye!!!')
         exit()
+    
     # return error message if user enter wrong input
     else:
         divisory_line()
